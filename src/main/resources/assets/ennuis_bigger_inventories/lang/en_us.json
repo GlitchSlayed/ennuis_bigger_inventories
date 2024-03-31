@@ -1,0 +1,13 @@
+{
+  "key.hotbar.10": "Hotbar Slot 10",
+  "selectWorld.ennuis_bigger_inventories.9x4": "9x4",
+  "selectWorld.ennuis_bigger_inventories.10x4": "10x4",
+  "selectWorld.ennuis_bigger_inventories.expand_inventories": "Expand Inventories",
+  "selectWorld.ennuis_bigger_inventories.expand_inventories.info": "Determines whenever inventories should be expanded to occupy 10 columns or not.",
+  "selectWorld.ennuis_bigger_inventories.edit.expand_all_inventories": "Expand All Inventories",
+  "ennuis_bigger_inventories.expand_all_inventories.confirm.title": "Expand All Inventories",
+  "ennuis_bigger_inventories.expand_all_inventories.confirm.description": "This will expand all inventories so that they will have 10 columns instead of 9. This process, however, cannot be reverted once done. Are you sure you wish to proceed?",
+  "ennuis_bigger_inventories.expand_all_inventories.title": "Expanding Inventories on World '%s'",
+  "ennuis_bigger_inventories.item_group.saved_hotbars.shifted_left": "%s (←)",
+  "ennuis_bigger_inventories.item_group.saved_hotbars.shifted_right": "%s (→)"
+}

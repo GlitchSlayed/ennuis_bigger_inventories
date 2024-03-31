@@ -1,0 +1,55 @@
+{
+	"schema_version": 1,
+	"quilt_loader": {
+		"group": "io.github.ennuil",
+		"id": "ennuis_bigger_inventories",
+		"version": "${version}",
+		"metadata": {
+			"name": "Ennui's Bigger Inventories",
+			"description": "An inventory overhaul mod that adds a tenth column to everything in a way that fits Vanilla in a natural way.",
+			"contributors": {
+				"Ennui Langeweile": "Owner"
+			},
+			"contact": {
+				"homepage": "https://modrinth.com/mod/ennuis_bigger_inventories",
+				"issues": "https://github.com/EnnuiL/ennuis_bigger_inventories/issues",
+				"sources": "https://github.com/EnnuiL/ennuis_bigger_inventories"
+			},
+			"icon": "assets/ennuis_bigger_inventories/icon.png"
+		},
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"entrypoints": {
+			"init": "io.github.ennuil.ennuis_bigger_inventories.ModInit",
+			"client_init": "io.github.ennuil.ennuis_bigger_inventories.ClientModInit",
+			"client_events": "io.github.ennuil.ennuis_bigger_inventories.ClientModInit"
+		},
+		"depends": [
+			{
+				"id": "quilt_loader",
+				"versions": ">=0.24.0"
+			},
+			{
+				"id": "quilted_fabric_api",
+				"versions": ">=7.5.0"
+			},
+			{
+				"id": "minecraft",
+				"versions": "=1.20.1"
+			}
+		]
+	},
+	"mixin": "ennuis_bigger_inventories.mixins.json",
+	"quilt_registry": {
+		"mod_protocol": 0
+	},
+	"quilt_loom": {
+		"injected_interfaces": {
+			"net/minecraft/class_332": ["io/github/ennuil/ennuis_bigger_inventories/impl/libfuturecollage/SplitTextureGuiGraphics"],
+			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyClientPlayerInteractionManager"],
+			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyPlayerInventory"],
+			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyWorld"],
+			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorld"],
+			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorldProperties"]
+		}
+	}
+}
