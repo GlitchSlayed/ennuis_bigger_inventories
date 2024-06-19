@@ -35,8 +35,8 @@ public abstract class PlayerScreenHandlerMixin {
 	}
 
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=40"))
-	private int modify40Constant(int originalValue) {
-		return this.owner.getInventory().isTenfoursized() ? 40 + 4 : originalValue;
+	private int modify40Constant(int original) {
+		return this.owner.getInventory().isTenfoursized() ? 40 + 4 : original;
 	}
 
 	// isHotbarSlot is a static method, and therefore, its usages should be replaced with non-static ones

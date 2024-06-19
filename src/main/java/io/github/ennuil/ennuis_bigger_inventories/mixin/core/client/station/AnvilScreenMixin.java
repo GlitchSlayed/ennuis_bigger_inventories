@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
@@ -21,11 +22,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(AnvilScreen.class)
 public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/anvil.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/anvil.png");
 
-	@Unique private static final Identifier EBI_TEXT_FIELD_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/anvil/text_field");
-	@Unique private static final Identifier EBI_TEXT_FIELD_DISABLED_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/anvil/text_field_disabled");
-	@Unique private static final Identifier EBI_ERROR_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/anvil/error");
+	@Unique private static final Identifier EBI_TEXT_FIELD_TEXTURE = ModUtils.id("container/anvil/text_field");
+	@Unique private static final Identifier EBI_TEXT_FIELD_DISABLED_TEXTURE = ModUtils.id("container/anvil/text_field_disabled");
+	@Unique private static final Identifier EBI_ERROR_TEXTURE = ModUtils.id("container/anvil/error");
 
 	private AnvilScreenMixin(AnvilScreenHandler handler, PlayerInventory playerInventory, Text title, Identifier texture) {
 		super(handler, playerInventory, title, texture);
@@ -43,31 +44,19 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 		return playerInventory.isTenfoursized() ? BIGGER_TEXTURE : original;
 	}
 
-	@ModifyArg(
-		method = {"drawBackground", "renderIcon"},
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
-	)
-	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
-	}
-
 	@WrapOperation(
 		method = "drawBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyTextFieldTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	private void modifyTextFieldTexture(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.client.interactionManager.isTenfoursized()) {
 			var textFieldTexture = this.handler.getSlot(0).hasStack() ? EBI_TEXT_FIELD_TEXTURE : EBI_TEXT_FIELD_DISABLED_TEXTURE;
 			graphics.drawGuiTexture(textFieldTexture, this.x + 54, y, 128, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 
@@ -75,14 +64,14 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 		method = "renderIcon",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyErrorTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	private void modifyErrorTexture(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.client.interactionManager.isTenfoursized()) {
 			graphics.drawGuiTexture(EBI_ERROR_TEXTURE, this.x + 108, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 

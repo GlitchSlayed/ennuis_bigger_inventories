@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.resource.pack.VanillaDataPackProvider;
 import net.minecraft.text.Text;
 import net.minecraft.util.CommonColors;
 import net.minecraft.world.SaveProperties;
@@ -26,7 +27,7 @@ public class ConvertToTenfoursizedWorldScreen extends Screen {
 
 	@Nullable
 	public static ConvertToTenfoursizedWorldScreen create(MinecraftClient client, BooleanConsumer callback, WorldSaveStorage.Session session) {
-		try (var worldStem = client.createIntegratedServerLoader().loadWorldStem(session, false)) {
+		try (var worldStem = client.createIntegratedServerLoader().method_54610(session.method_54545(), false, VanillaDataPackProvider.createPackManager(session))) {
 			var saveProperties = worldStem.saveProperties();
 			var frozen = worldStem.registries().getCompositeManager();
 
@@ -53,7 +54,7 @@ public class ConvertToTenfoursizedWorldScreen extends Screen {
 
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.renderBackground(graphics);
+		this.renderBackground(graphics, mouseX, mouseY, delta);
 		graphics.drawCenteredShadowedText(this.textRenderer, this.title, this.width / 2, this.height / 2, CommonColors.WHITE);
 		super.render(graphics, mouseX, mouseY, delta);
 	}

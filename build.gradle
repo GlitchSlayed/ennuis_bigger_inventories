@@ -21,7 +21,7 @@ loom {
 		}
 	}
 
-	// Do not use this at all! It'll get confused by a mixed mapped/unmapped name and then crash and burn!
+	// Do not use this at all! It'll get confused by CreativeInventoryScreen's DefaultedList and then crash and burn!
 	/*
 	mixin {
 		useLegacyMixinAp = false
@@ -38,7 +38,7 @@ dependencies {
 
 	// QSL is not a complete API; You will need Quilted Fabric API to fill in the gaps.
 	// Quilted Fabric API will automatically pull in the correct QSL version.
-	modImplementation libs.quilted.fabric.api
+	modImplementation libs.fabric.api
 }
 
 processResources {

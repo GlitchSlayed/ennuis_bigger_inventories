@@ -10,6 +10,7 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @ClientOnly
 @Mixin(targets = "net/minecraft/client/gui/screen/ingame/BeaconScreen$IconButtonWidget")
@@ -22,19 +23,19 @@ public abstract class IconButtonWidgetMixin implements SplitTextureBeaconIconBut
 		this.textureId = textureId;
 	}
 
-	@WrapOperation(
+	@ModifyArg(
 		method = "renderExtra",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyPatternTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	private Identifier modifyPatternTexture(Identifier original) {
 		// I hate these so much; it's not even an EBI hackjob, it's a Mojang-like hackjob!
 		if (MinecraftClient.getInstance().interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(this.textureId, x,  y, width, height);
+			return this.textureId;
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			return original;
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.container;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HopperScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(HopperScreen.class)
 public abstract class HopperScreenMixin extends HandledScreen<HopperScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/hopper.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/hopper.png");
 
 	private HopperScreenMixin(HopperScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);

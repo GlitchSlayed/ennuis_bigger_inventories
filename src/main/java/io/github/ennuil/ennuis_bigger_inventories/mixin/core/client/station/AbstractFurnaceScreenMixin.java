@@ -36,13 +36,8 @@ public abstract class AbstractFurnaceScreenMixin<T extends AbstractFurnaceScreen
 		this.litProgressTexture = litProgressTexture;
 	}
 
-	@ModifyExpressionValue(method = "init", at = @At(value = "CONSTANT", args = "intValue=20", ordinal = 0))
-	private int modifyTwenty1(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 29 : original;
-	}
-
-	@ModifyExpressionValue(method = "method_19877", at = @At(value = "CONSTANT", args = "intValue=20"))
-	private int modifyTwenty2(int original) {
+	@ModifyExpressionValue(method = {"init", "method_19877"}, at = @At(value = "CONSTANT", args = "intValue=20", ordinal = 0))
+	private int modify20s(int original) {
 		return this.client.interactionManager.isTenfoursized() ? 29 : original;
 	}
 
@@ -50,15 +45,15 @@ public abstract class AbstractFurnaceScreenMixin<T extends AbstractFurnaceScreen
 		method = "drawBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-			ordinal = 1
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V",
+			ordinal = 0
 		)
 	)
-	private void modifyLitProgress(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i, @Local(ordinal = 4) int k) {
+	private void modifyLitProgress(GuiGraphics graphics, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
 		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(this.litProgressTexture, 14, 14, 0, 14 - (k + 2), i + 65, y, width, k + 2);
+			graphics.drawGuiTexture(this.litProgressTexture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 65, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}
 	}
 
@@ -66,15 +61,15 @@ public abstract class AbstractFurnaceScreenMixin<T extends AbstractFurnaceScreen
 		method = "drawBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-			ordinal = 2
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V",
+			ordinal = 1
 		)
 	)
-	private void modifyBurnProgress(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i, @Local(ordinal = 4) int k) {
+	private void modifyBurnProgress(GuiGraphics graphics, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
 		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(this.burnProgressTexture, 24, 16, 0, 0, i + 88, y, width, height);
+			graphics.drawGuiTexture(this.burnProgressTexture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 88, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}
 	}
 }

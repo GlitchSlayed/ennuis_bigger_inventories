@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl.screen;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
@@ -10,7 +11,7 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 @ClientOnly
 public class GenericTensizedContainerScreen extends HandledScreen<GenericTensizedContainerScreenHandler> implements ScreenHandlerProvider<GenericTensizedContainerScreenHandler> {
-	private static final Identifier TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/generic_10x6.png");
+	private static final Identifier TEXTURE = ModUtils.id("textures/gui/container/generic_10x6.png");
 	private final int rows;
 
 	public GenericTensizedContainerScreen(GenericTensizedContainerScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -22,7 +23,7 @@ public class GenericTensizedContainerScreen extends HandledScreen<GenericTensize
 
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.renderBackground(graphics);
+		this.renderBackground(graphics, mouseX, mouseY, delta);
 		super.render(graphics, mouseX, mouseY, delta);
 		this.drawMouseoverTooltip(graphics, mouseX, mouseY);
 	}

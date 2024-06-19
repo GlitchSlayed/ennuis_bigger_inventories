@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.container;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.Generic3x3ContainerScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Generic3x3ContainerScreen.class)
 public abstract class Generic3x3ContainerScreenMixin extends HandledScreen<Generic3x3ContainerScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/generic_3x3.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/generic_3x3.png");
 
 	private Generic3x3ContainerScreenMixin(Generic3x3ContainerScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);

@@ -5,13 +5,13 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.option.HotbarStorageEntry;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -33,54 +33,54 @@ import java.util.Collection;
 @ClientOnly
 @Mixin(CreativeInventoryScreen.class)
 public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScreen<CreativeInventoryScreen.CreativeScreenHandler> {
-	@Unique private static final Identifier EBI_SCROLLER_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/creative_inventory/scroller");
-	@Unique private static final Identifier EBI_SCROLLER_DISABLED_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/creative_inventory/scroller_disabled");
+	@Unique private static final Identifier EBI_SCROLLER_TEXTURE = ModUtils.id("container/creative_inventory/scroller");
+	@Unique private static final Identifier EBI_SCROLLER_DISABLED_TEXTURE = ModUtils.id("container/creative_inventory/scroller_disabled");
 
 	@Unique
 	private boolean shiftSavedToolbars = false;
 
 	@Unique
 	private static final Identifier[] EBI_TAB_TOP_SELECTED_TEXTURES = {
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_1"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_2"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_3"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_4"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_5"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_6"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_selected_7"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_1"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_2"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_3"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_4"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_5"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_6"),
+		ModUtils.id("container/creative_inventory/tab_top_selected_7"),
 	};
 
 	@Unique
 	private static final Identifier[] EBI_TAB_TOP_UNSELECTED_TEXTURES = {
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_1"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_2"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_3"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_4"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_5"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_6"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_top_unselected_7"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_1"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_2"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_3"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_4"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_5"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_6"),
+		ModUtils.id("container/creative_inventory/tab_top_unselected_7"),
 	};
 
 	@Unique
 	private static final Identifier[] EBI_TAB_BOTTOM_SELECTED_TEXTURES = {
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_1"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_2"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_3"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_4"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_5"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_6"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_selected_7"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_1"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_2"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_3"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_4"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_5"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_6"),
+		ModUtils.id("container/creative_inventory/tab_bottom_selected_7"),
 	};
 
 	@Unique
 	private static final Identifier[] EBI_TAB_BOTTOM_UNSELECTED_TEXTURES = {
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_1"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_2"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_3"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_4"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_5"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_6"),
-		new Identifier("ennuis_bigger_inventories", "container/creative_inventory/tab_bottom_unselected_7"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_1"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_2"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_3"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_4"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_5"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_6"),
+		ModUtils.id("container/creative_inventory/tab_bottom_unselected_7"),
 	};
 
 	@Shadow
@@ -100,7 +100,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 	}
 
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=195"))
-	private int modifyBackgroundWidth(int original, PlayerEntity player) {
+	private int modifyBackgroundWidth(int original, ClientPlayerEntity player) {
 		return player.getInventory().isTenfoursized() ? 213 : original;
 	}
 
@@ -196,15 +196,6 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
         return original;
     }
 
-	@ModifyArg(method = "onHotbarKeyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;getStack(I)Lnet/minecraft/item/ItemStack;"))
-	private static int modifyGetStackToOffHand(int original, @Local(argsOnly = true) MinecraftClient client) {
-		if (original == 9 && !client.interactionManager.isTenfoursized()) {
-			return 40;
-		}
-
-		return original;
-	}
-
 	// 45 in this case is the offhand slot
 	@ModifyExpressionValue(method = "setSelectedTab", at = @At(value = "CONSTANT", args = "intValue=45"))
 	private int modify45(int original) {
@@ -243,10 +234,14 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 		return this.client.interactionManager.isTenfoursized() ? 193 : original;
 	}
 
-	// The + 1 is needed in order to center the player visually
-	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=88"))
+	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=73"))
 	private int modifyPlayerX(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 106 + 1 : original;
+		return this.client.interactionManager.isTenfoursized() ? 91 : original;
+	}
+
+	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=105"))
+	private int modifyPlayerX2(int original) {
+		return this.client.interactionManager.isTenfoursized() ? 123 : original;
 	}
 
 	@ModifyArg(
@@ -259,7 +254,7 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 	)
 	private Identifier modifyTexture(Identifier original) {
 		return this.client.interactionManager.isTenfoursized()
-			? new Identifier("ennuis_bigger_inventories", original.getPath())
+			? ModUtils.id(original.getPath())
 			: original;
 	}
 
@@ -267,16 +262,15 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 		method = "drawBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-			ordinal = 1
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyScrollerTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original) {
+	private void modifyScrollerTexture(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.client.interactionManager.isTenfoursized()) {
 			var scrollerTexture = this.hasScrollbar() ? EBI_SCROLLER_TEXTURE : EBI_SCROLLER_DISABLED_TEXTURE;
 			graphics.drawGuiTexture(scrollerTexture, x + 18, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 
@@ -284,17 +278,17 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 		method = "renderTabIcon",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyTabTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
+	private void modifyTabTexture(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
 		if (this.client.interactionManager.isTenfoursized()) {
 			var tabTextures = bl2
 				? (bl ? EBI_TAB_TOP_SELECTED_TEXTURES : EBI_TAB_TOP_UNSELECTED_TEXTURES)
 				: (bl ? EBI_TAB_BOTTOM_SELECTED_TEXTURES : EBI_TAB_BOTTOM_UNSELECTED_TEXTURES);
 			graphics.drawGuiTexture(tabTextures[MathHelper.clamp(i, 0, tabTextures.length)], x, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 
@@ -305,8 +299,9 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 	)
 	private boolean addHotbarContentsPartially(DefaultedList<ItemStack> instance, Collection<ItemStack> collection, Operation<Boolean> original) {
 		if (!this.client.interactionManager.isTenfoursized()) {
+			// FIXME - This is dirty!
 			for (int i = 0; i < 9; i++) {
-				instance.add(((HotbarStorageEntry) collection).get(i + (this.shiftSavedToolbars ? 1 : 0)));
+				instance.add((collection.stream().toList()).get(i + (this.shiftSavedToolbars ? 1 : 0)));
 			}
 
 			// The result doesn't really matter

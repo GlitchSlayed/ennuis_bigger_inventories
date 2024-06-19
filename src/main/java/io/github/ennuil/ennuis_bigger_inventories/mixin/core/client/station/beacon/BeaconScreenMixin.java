@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station.beacon;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.BeaconScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(BeaconScreen.class)
 public abstract class BeaconScreenMixin extends HandledScreen<BeaconScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/beacon.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/beacon.png");
 
 	private BeaconScreenMixin(BeaconScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);

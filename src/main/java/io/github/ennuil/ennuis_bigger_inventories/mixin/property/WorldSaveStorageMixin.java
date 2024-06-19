@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(WorldSaveStorage.class)
 public abstract class WorldSaveStorageMixin {
-	@ModifyReturnValue(method = "method_29015", at = @At(value = "RETURN", ordinal = 1))
-	private WorldSaveSummary setTenfoursizedOnSummary(WorldSaveSummary original, @Local Dynamic<?> dynamic) {
+	@ModifyReturnValue(method = "method_54524", at = @At(value = "RETURN"))
+	private WorldSaveSummary setTenfoursizedOnSummary(WorldSaveSummary original, @Local(argsOnly = true) Dynamic<?> dynamic) {
 		boolean tenfoursized = dynamic.get("ennuis_bigger_inventories:is_tenfoursized").asBoolean(false);
 		((WorldSaveSummaryExtensions) original).ebi$setTenfoursized(tenfoursized);
 		return original;

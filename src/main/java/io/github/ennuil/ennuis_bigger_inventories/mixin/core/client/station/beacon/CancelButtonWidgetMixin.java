@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station.beacon;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.SplitTextureBeaconIconButtonWidget;
 import net.minecraft.client.gui.screen.ingame.BeaconScreen;
 import net.minecraft.util.Identifier;
@@ -13,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @ClientOnly
 @Mixin(targets = "net/minecraft/client/gui/screen/ingame/BeaconScreen$CancelButtonWidget")
 public abstract class CancelButtonWidgetMixin implements SplitTextureBeaconIconButtonWidget {
-	@Unique private static final Identifier EBI_CANCEL_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/beacon/cancel");
+	@Unique
+	private static final Identifier EBI_CANCEL_TEXTURE = ModUtils.id("container/beacon/cancel");
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void initIconTexture(BeaconScreen beaconScreen, int x, int y, CallbackInfo ci) {

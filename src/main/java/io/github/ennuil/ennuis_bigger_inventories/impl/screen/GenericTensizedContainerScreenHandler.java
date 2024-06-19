@@ -98,7 +98,7 @@ public class GenericTensizedContainerScreenHandler extends ScreenHandler {
 			}
 
 			if (slotStack.isEmpty()) {
-				slot.setStackByPlayer(ItemStack.EMPTY);
+				slot.method_53512(ItemStack.EMPTY);
 			} else {
 				slot.markDirty();
 			}

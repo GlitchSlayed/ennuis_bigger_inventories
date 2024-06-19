@@ -1,6 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.CraftingScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(CraftingScreen.class)
 public abstract class CraftingScreenMixin extends HandledScreen<CraftingScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/crafting_table.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/crafting_table.png");
 
 	private CraftingScreenMixin(CraftingScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);

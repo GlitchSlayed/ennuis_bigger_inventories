@@ -15,15 +15,13 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.Optional;
-
 @ClientOnly
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 	@ModifyReceiver(method = "onGameJoin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;createPlayer(Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/stat/StatHandler;Lnet/minecraft/client/recipe_book/ClientRecipeBook;)Lnet/minecraft/client/network/ClientPlayerEntity;"))
 	private ClientPlayerInteractionManager setInteractionManagerTenfoursized(ClientPlayerInteractionManager instance, ClientWorld world, StatHandler statHandler, ClientRecipeBook recipeBook) {
-		boolean tenfoursized = EnnyPackets.tenfoursized.orElse(false);
-		EnnyPackets.tenfoursized = Optional.empty();
+		boolean tenfoursized = EnnyPackets.tenfoursized != null ? EnnyPackets.tenfoursized : false;
+		EnnyPackets.tenfoursized = null;
 
 		((ClientPlayerInteractionManagerExtensions) instance).ebi$setTenfoursized(tenfoursized);
 		HackjobKitImpl.TenfoursizedProperty.setInstance(tenfoursized);

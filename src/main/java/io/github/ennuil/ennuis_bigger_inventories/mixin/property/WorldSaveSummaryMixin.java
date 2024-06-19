@@ -24,7 +24,7 @@ public abstract class WorldSaveSummaryMixin implements WorldSaveSummaryExtension
 		this.tenfoursized = tenfoursized;
 	}
 
-	@Inject(method = "createDetails", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSaveSummary;hasCheats()Z"))
+	@Inject(method = "createDetails", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSaveSummary;areCommandsAllowed()Z"))
 	private void append10x4Summary(CallbackInfoReturnable<Text> cir, @Local MutableText text) {
 		if (this.ebi$isTenfoursized()) {
 			text.append(", ").append(Text.translatable("selectWorld.ennuis_bigger_inventories.10x4"));

@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.SplitTextureFurnaceScreen;
 import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FurnaceScreen.class)
 public abstract class FurnaceScreenMixin implements SplitTextureFurnaceScreen {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/furnace.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/furnace.png");
 
-	@Unique private static final Identifier EBI_BURN_PROGRESS = new Identifier("ennuis_bigger_inventories", "container/furnace/burn_progress");
+	@Unique private static final Identifier EBI_BURN_PROGRESS = ModUtils.id("container/furnace/burn_progress");
 
-	@Unique private static final Identifier EBI_LIT_PROGRESS = new Identifier("ennuis_bigger_inventories", "container/furnace/lit_progress");
+	@Unique private static final Identifier EBI_LIT_PROGRESS = ModUtils.id("container/furnace/lit_progress");
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void modifyAndSetTextures(FurnaceScreenHandler handler, PlayerInventory inventory, Text title, CallbackInfo ci) {

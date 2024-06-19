@@ -17,16 +17,6 @@ public abstract class LoomScreenHandlerMixin {
 		return playerInventory.isTenfoursized() ? 161 : original;
 	}
 
-	// I'm fixing a Mojang bug that was already fixed on newer version?? oh my god
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V",
-		at = @At(value = "CONSTANT", args = "intValue=58")
-	)
-	private int modifyOutputSlotY(int original, int syncId, PlayerInventory playerInventory) {
-		// Yes, we unfix it on 9x4 mode, for Vanilla compat!
-		return playerInventory.isTenfoursized() ? 57 : original;
-	}
-
 	@ModifyExpressionValue(
 		method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V",
 		at = @At(value = "CONSTANT", args = "intValue=9")

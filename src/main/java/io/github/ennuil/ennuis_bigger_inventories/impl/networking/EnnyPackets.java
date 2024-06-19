@@ -1,20 +1,19 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl.networking;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.util.Identifier;
-import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
-
-import java.util.Optional;
+import io.github.ennuil.ennuis_bigger_inventories.impl.networking.payloads.SyncTenfoursizedS2CPacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 public class EnnyPackets {
-	public static final Identifier SYNC_TENFOURSIZED_S2C_PACKET_ID = new Identifier("ennuis_bigger_inventories", "sync_tenfoursized_s2c");
+	public static Boolean tenfoursized = null;
 
-	public static Optional<Boolean> tenfoursized = Optional.empty();
+	public static void register() {
+		PayloadTypeRegistry.playS2C().register(SyncTenfoursizedS2CPacket.ID, SyncTenfoursizedS2CPacket.CODEC);
+	}
 
-	public static void registerReceivers(ClientPlayNetworkHandler handler, MinecraftClient client) {
-		ClientPlayNetworking.registerReceiver(SYNC_TENFOURSIZED_S2C_PACKET_ID, (client1, handler1, buf, responseSender) -> {
-            EnnyPackets.tenfoursized = Optional.of(buf.readBoolean());
-		});
+	@ClientOnly
+	public static void registerClient() {
+		ClientPlayNetworking.registerGlobalReceiver(SyncTenfoursizedS2CPacket.ID, SyncTenfoursizedS2CPacket::handle);
 	}
 }

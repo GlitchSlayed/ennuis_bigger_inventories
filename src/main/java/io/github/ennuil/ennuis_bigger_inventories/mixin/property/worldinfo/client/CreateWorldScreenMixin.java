@@ -38,13 +38,13 @@ public abstract class CreateWorldScreenMixin {
 		((WorldCreatorExtensions) screen.getWorldCreator()).ebi$setTenfoursized(((WorldInfoExtensions) (Object) info).ebi$isTenfoursized());
 	}
 
-	@ModifyReturnValue(method = "createLevelInfo", at = @At(value = "RETURN", ordinal = 0))
+	@ModifyReturnValue(method = "createWorldInfo", at = @At(value = "RETURN", ordinal = 0))
 	private WorldInfo tenfoursizeDebugWorldInfo(WorldInfo original) {
 		((WorldInfoExtensions) (Object) original).ebi$setTenfoursized(true);
 		return original;
 	}
 
-	@ModifyReturnValue(method = "createLevelInfo", at = @At(value = "RETURN", ordinal = 1))
+	@ModifyReturnValue(method = "createWorldInfo", at = @At(value = "RETURN", ordinal = 1))
 	private WorldInfo tenfoursizeWorldInfo(WorldInfo original) {
 		((WorldInfoExtensions) (Object) original).ebi$setTenfoursized(((WorldCreatorExtensions) this.worldCreator).ebi$isTenfoursized());
 		return original;

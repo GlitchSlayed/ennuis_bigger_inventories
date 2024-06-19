@@ -1,9 +1,8 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.client.gui.GuiGraphics;
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.GrindstoneScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,9 +19,9 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(GrindstoneScreen.class)
 public abstract class GrindstoneScreenMixin extends HandledScreen<GrindstoneScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/grindstone.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/grindstone.png");
 
-	@Unique private static final Identifier EBI_ERROR_TEXTURE = new Identifier("ennuis_bigger_inventories", "container/grindstone/error");
+	@Unique private static final Identifier EBI_ERROR_TEXTURE = ModUtils.id("container/grindstone/error");
 
 	public GrindstoneScreenMixin(GrindstoneScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
@@ -40,19 +39,23 @@ public abstract class GrindstoneScreenMixin extends HandledScreen<GrindstoneScre
 		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
 	}
 
-	@WrapOperation(
+	@ModifyArg(
 		method = "drawBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
-			ordinal = 1
+			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"
 		)
 	)
-	private void modifyErrorTexture(GuiGraphics graphics, Identifier texture, int x, int y, int u, int v, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
+	private Identifier modifyErrorTexture(Identifier original) {
 		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_ERROR_TEXTURE, i + 101, y, width, height);
+			return EBI_ERROR_TEXTURE;
 		} else {
-			original.call(graphics, texture, x, y, u, v, width, height);
+			return original;
 		}
+	}
+
+	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=92"))
+	private int modify92(int original) {
+		return this.client.interactionManager.isTenfoursized() ? 101 : original;
 	}
 }

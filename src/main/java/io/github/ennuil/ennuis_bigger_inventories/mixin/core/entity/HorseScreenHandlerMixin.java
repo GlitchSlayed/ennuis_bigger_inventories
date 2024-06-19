@@ -14,8 +14,9 @@ public abstract class HorseScreenHandlerMixin {
 		at = @At(value = "CONSTANT", args = "intValue=8"),
 		slice = @Slice(
 			to = @At(
-				value = "INVOKE",
-				target = "Lnet/minecraft/screen/HorseScreenHandler;hasChest(Lnet/minecraft/entity/passive/HorseBaseEntity;)Z"
+				value = "INVOKE_ASSIGN",
+				target = "Lnet/minecraft/screen/HorseScreenHandler;addSlot(Lnet/minecraft/screen/slot/Slot;)Lnet/minecraft/screen/slot/Slot;",
+				ordinal = 1
 			)
 		)
 	)

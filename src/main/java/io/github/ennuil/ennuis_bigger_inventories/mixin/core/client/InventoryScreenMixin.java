@@ -1,6 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> {
 	@Unique
-	private static final Identifier BIGGER_TEXTURE = new Identifier("ennuis_bigger_inventories", "textures/gui/container/inventory.png");
+	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
 
 	private InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
