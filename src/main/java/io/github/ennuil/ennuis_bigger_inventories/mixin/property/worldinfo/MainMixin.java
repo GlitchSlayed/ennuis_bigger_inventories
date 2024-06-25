@@ -13,9 +13,7 @@ import joptsimple.OptionSpec;
 import net.minecraft.server.Main;
 import net.minecraft.server.WorldLoader;
 import net.minecraft.server.dedicated.ServerPropertiesLoader;
-import net.minecraft.world.SaveProperties;
 import net.minecraft.world.WorldInfo;
-import net.minecraft.world.storage.ParsedSaveProperties;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,7 +21,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -61,7 +58,7 @@ public abstract class MainMixin {
 			target = "Lnet/minecraft/registry/DynamicRegistryManager$Frozen;get(Lnet/minecraft/registry/RegistryKey;)Lnet/minecraft/registry/Registry;"
 		)
 	)
-	private static void tenfoursizePreexistingSaveProperties(Dynamic<?> dynamic, OptionSet optionSet, OptionSpec optionSpec, ServerPropertiesLoader serverPropertiesLoader, OptionSpec optionSpec2, WorldLoader.DataLoadContext dataLoadContext, CallbackInfoReturnable<WorldLoader.DataLoadOutput> cir, @Local(argsOnly = true) LocalRef<Dynamic<?>> dynamicRef) {
+	private static void tenfoursizePreexistingSaveProperties(Dynamic<?> dynamic, OptionSet optionSet, OptionSpec<?> optionSpec, ServerPropertiesLoader serverPropertiesLoader, OptionSpec<?> optionSpec2, WorldLoader.DataLoadContext dataLoadContext, CallbackInfoReturnable<WorldLoader.DataLoadOutput<?>> cir, @Local(argsOnly = true) LocalRef<Dynamic<?>> dynamicRef) {
 		if (dynamic != null) {
 			var tenfoursized = dynamic.get("ennuis_bigger_inventories:is_tenfoursized").asBoolean(false);
 			if (optionSet.has(expandAllInventoriesOptionSpec) && !tenfoursized) {
