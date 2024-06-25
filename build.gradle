@@ -17,12 +17,10 @@ loom {
 		}
 	}
 
-	// Do not use this at all! It'll get confused by CreativeInventoryScreen's DefaultedList and then crash and burn!
-	/*
+	// CreativeInventoryScreen's DefaultedList hates this so much; that's Loom for ya
 	mixin {
 		useLegacyMixinAp = false
 	}
-	*/
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"

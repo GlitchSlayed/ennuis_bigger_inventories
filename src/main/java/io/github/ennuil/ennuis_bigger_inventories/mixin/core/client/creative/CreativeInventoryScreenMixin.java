@@ -293,9 +293,23 @@ public abstract class CreativeInventoryScreenMixin extends AbstractInventoryScre
 	}
 
 	// The section where Saved Hotbars are saved
+	// This is also the part where Loom is being a massive pain in the arse with the refmapless mode
 	@WrapOperation(
 		method = "setSelectedTab",
-		at = @At(value = "INVOKE", target = "Lnet/minecraft/util/collection/DefaultedList;addAll(Ljava/util/Collection;)Z", ordinal = 0)
+		at = {
+			@At(
+				value = "INVOKE",
+				target = "Lnet/minecraft/class_2371;addAll(Ljava/util/Collection;)Z",
+				ordinal = 0,
+				remap = false
+			),
+			@At(
+				value = "INVOKE",
+				target = "Lnet/minecraft/util/collection/DefaultedList;addAll(Ljava/util/Collection;)Z",
+				ordinal = 0
+			)
+		},
+		allow = 1
 	)
 	private boolean addHotbarContentsPartially(DefaultedList<ItemStack> instance, Collection<ItemStack> collection, Operation<Boolean> original) {
 		if (!this.client.interactionManager.isTenfoursized()) {
