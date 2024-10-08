@@ -16,8 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(ShulkerBoxScreen.class)
 public abstract class ShulkerBoxScreenMixin extends HandledScreen<ShulkerBoxScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/shulker_box.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/shulker_box.png");
 
 	private ShulkerBoxScreenMixin(ShulkerBoxScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
@@ -28,10 +27,9 @@ public abstract class ShulkerBoxScreenMixin extends HandledScreen<ShulkerBoxScre
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 }

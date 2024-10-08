@@ -16,8 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(Generic3x3ContainerScreen.class)
 public abstract class Generic3x3ContainerScreenMixin extends HandledScreen<Generic3x3ContainerScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/generic_3x3.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/generic_3x3.png");
 
 	private Generic3x3ContainerScreenMixin(Generic3x3ContainerScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
@@ -28,10 +27,9 @@ public abstract class Generic3x3ContainerScreenMixin extends HandledScreen<Gener
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 }

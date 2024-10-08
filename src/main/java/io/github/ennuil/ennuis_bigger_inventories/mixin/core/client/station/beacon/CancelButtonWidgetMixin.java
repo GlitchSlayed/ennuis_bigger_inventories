@@ -14,8 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @ClientOnly
 @Mixin(targets = "net/minecraft/client/gui/screen/ingame/BeaconScreen$CancelButtonWidget")
 public abstract class CancelButtonWidgetMixin implements SplitTextureBeaconIconButtonWidget {
-	@Unique
-	private static final Identifier EBI_CANCEL_TEXTURE = ModUtils.id("container/beacon/cancel");
+	@Unique private static final Identifier EBI_CANCEL_TEXTURE = ModUtils.id("container/beacon/cancel");
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void initIconTexture(BeaconScreen beaconScreen, int x, int y, CallbackInfo ci) {

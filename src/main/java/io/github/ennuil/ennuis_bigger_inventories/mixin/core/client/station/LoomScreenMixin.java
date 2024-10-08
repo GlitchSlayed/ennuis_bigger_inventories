@@ -1,10 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,9 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/loom.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/loom.png");
 	@Unique private static final Identifier EBI_BANNER_SLOT_TEXTURE = ModUtils.id("container/loom/banner_slot");
 	@Unique private static final Identifier EBI_DYE_SLOT_TEXTURE = ModUtils.id("container/loom/dye_slot");
 	@Unique private static final Identifier EBI_PATTERN_SLOT_TEXTURE = ModUtils.id("container/loom/pattern_slot");
@@ -50,11 +45,10 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(

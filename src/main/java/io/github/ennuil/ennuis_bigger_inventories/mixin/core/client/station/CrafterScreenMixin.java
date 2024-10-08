@@ -16,9 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(CrafterScreen.class)
 public abstract class CrafterScreenMixin {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/crafter.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/crafter.png");
 	@Unique private static final Identifier EBI_DISABLED_SLOT_TEXTURE = ModUtils.id("container/crafter/disabled_slot");
 	@Unique private static final Identifier EBI_POWERED_ARROW_TEXTURE = ModUtils.id("container/crafter/powered_redstone");
 	@Unique private static final Identifier EBI_UNPOWERED_ARROW_TEXTURE = ModUtils.id("container/crafter/unpowered_redstone");
@@ -33,7 +31,7 @@ public abstract class CrafterScreenMixin {
 
 	@ModifyArg(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
 	private Identifier modifyTexture(Identifier original) {
-		return this.player.getInventory().isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.player.getInventory().isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(method = "drawDisabledSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))

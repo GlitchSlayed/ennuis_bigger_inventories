@@ -20,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(BrewingStandScreen.class)
 public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStandScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/brewing_stand.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/brewing_stand.png");
 	@Unique private static final Identifier EBI_BREW_PROGRESS_TEXTURE = ModUtils.id("container/brewing_stand/brew_progress");
 	@Unique private static final Identifier EBI_BUBBLES_TEXTURE = ModUtils.id("container/brewing_stand/bubbles");
 	@Unique private static final Identifier EBI_FUEL_LENGTH_TEXTURE = ModUtils.id("container/brewing_stand/fuel_length");
@@ -36,11 +34,10 @@ public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStand
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@WrapOperation(

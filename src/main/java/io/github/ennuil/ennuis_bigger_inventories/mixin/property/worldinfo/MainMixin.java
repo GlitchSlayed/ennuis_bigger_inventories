@@ -2,7 +2,6 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.property.worldinfo;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.serialization.Dynamic;
 import io.github.ennuil.ennuis_bigger_inventories.impl.HackjobKitImpl;
@@ -46,7 +45,7 @@ public abstract class MainMixin {
 	}
 
 	@Inject(method = "main", at = @At(value = "INVOKE", target = "Ljoptsimple/OptionParser;nonOptions()Ljoptsimple/NonOptionArgumentSpec;"), remap = false)
-	private static void addExpandAllInventoriesOption(String[] strings, CallbackInfo ci, @Local OptionParser parser, @Share("optionSpec") LocalRef<OptionSpec<Void>> optionSpecRef) {
+	private static void addExpandAllInventoriesOption(String[] strings, CallbackInfo ci, @Local OptionParser parser) {
 		expandAllInventoriesOptionSpec = parser.accepts("expandAllInventories", "Expands all inventories to have 10 columns instead of 9. This is irreversible!");
 	}
 

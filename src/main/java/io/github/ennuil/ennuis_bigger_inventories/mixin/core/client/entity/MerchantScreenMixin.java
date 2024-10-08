@@ -18,9 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(MerchantScreen.class)
 public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/villager.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/villager.png");
 	@Unique private static final Identifier EBI_OUT_OF_STOCK_TEXTURE = ModUtils.id("container/villager/out_of_stock");
 	@Unique private static final Identifier EBI_EXPERIENCE_BAR_BACKGROUND_TEXTURE = ModUtils.id("container/villager/experience_bar_background");
 	@Unique private static final Identifier EBI_EXPERIENCE_BAR_CURRENT_TEXTURE = ModUtils.id("container/villager/experience_bar_current");
@@ -47,7 +45,7 @@ public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHa
 		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(

@@ -16,8 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(HopperScreen.class)
 public abstract class HopperScreenMixin extends HandledScreen<HopperScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/hopper.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/hopper.png");
 
 	private HopperScreenMixin(HopperScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, title);
@@ -28,10 +27,9 @@ public abstract class HopperScreenMixin extends HandledScreen<HopperScreenHandle
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 }

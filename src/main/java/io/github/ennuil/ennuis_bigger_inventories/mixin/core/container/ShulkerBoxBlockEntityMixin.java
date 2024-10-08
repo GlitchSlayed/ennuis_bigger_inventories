@@ -29,8 +29,7 @@ public abstract class ShulkerBoxBlockEntityMixin {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/util/collection/DefaultedList;ofSize(ILjava/lang/Object;)Lnet/minecraft/util/collection/DefaultedList;"
-		),
-		index = 0
+		)
 	)
 	private int modifyDefaultedListSize(int original) {
 		return HackjobKit.isTenfoursized() ? 10 * 3 : original;

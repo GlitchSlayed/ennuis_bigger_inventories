@@ -26,8 +26,7 @@ public abstract class ShulkerBoxScreenHandlerMixin {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/screen/ShulkerBoxScreenHandler;checkSize(Lnet/minecraft/inventory/Inventory;I)V"
-		),
-		index = 1
+		)
 	)
 	private int modifySizeCheck(int original, @Local(argsOnly = true) PlayerInventory playerInventory) {
 		return playerInventory.isTenfoursized() ? 10 * 3 : original;

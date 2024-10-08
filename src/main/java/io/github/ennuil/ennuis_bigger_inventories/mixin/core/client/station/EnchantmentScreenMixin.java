@@ -18,9 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(EnchantmentScreen.class)
 public abstract class EnchantmentScreenMixin extends HandledScreen<EnchantmentScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/enchanting_table.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/enchanting_table.png");
 	@Unique private static final Identifier EBI_ENCHANTMENT_SLOT_TEXTURE = ModUtils.id("container/enchanting_table/enchantment_slot");
 	@Unique private static final Identifier EBI_ENCHANTMENT_SLOT_DISABLED_TEXTURE = ModUtils.id("container/enchanting_table/enchantment_slot_disabled");
 	@Unique private static final Identifier EBI_ENCHANTMENT_SLOT_HIGHLIGHTED_TEXTURE = ModUtils.id("container/enchanting_table/enchantment_slot_highlighted");
@@ -44,11 +42,10 @@ public abstract class EnchantmentScreenMixin extends HandledScreen<EnchantmentSc
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(

@@ -1,10 +1,8 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.gui.screen.ingame.SmithingScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,9 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(SmithingScreen.class)
 public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/smithing_table.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/smithing_table.png");
 	@Unique private static final Identifier EBI_ERROR_TEXTURE = ModUtils.id("container/smithing_table/error");
 
 	private SmithingScreenMixin(SmithingScreenHandler handler, PlayerInventory playerInventory, Text title, Identifier texture) {
@@ -35,11 +31,10 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;<init>(Lnet/minecraft/screen/ForgingScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)V"
-		),
-		index = 3
+		)
 	)
 	private static Identifier modifyTextureOnInit(Identifier original, @Local(argsOnly = true) PlayerInventory playerInventory) {
-		return playerInventory.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return playerInventory.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(

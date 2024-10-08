@@ -21,9 +21,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(AnvilScreen.class)
 public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/anvil.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/anvil.png");
 	@Unique private static final Identifier EBI_TEXT_FIELD_TEXTURE = ModUtils.id("container/anvil/text_field");
 	@Unique private static final Identifier EBI_TEXT_FIELD_DISABLED_TEXTURE = ModUtils.id("container/anvil/text_field_disabled");
 	@Unique private static final Identifier EBI_ERROR_TEXTURE = ModUtils.id("container/anvil/error");
@@ -37,11 +35,10 @@ public abstract class AnvilScreenMixin extends ForgingScreen<AnvilScreenHandler>
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/screen/ingame/ForgingScreen;<init>(Lnet/minecraft/screen/ForgingScreenHandler;Lnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/text/Text;Lnet/minecraft/util/Identifier;)V"
-		),
-		index = 3
+		)
 	)
 	private static Identifier modifyTextureOnInit(Identifier original, @Local(argsOnly = true) PlayerInventory playerInventory) {
-		return playerInventory.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return playerInventory.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@WrapOperation(

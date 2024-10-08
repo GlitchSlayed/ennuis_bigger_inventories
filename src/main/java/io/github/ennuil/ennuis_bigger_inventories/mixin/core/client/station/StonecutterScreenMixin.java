@@ -1,11 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -23,9 +19,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(StonecutterScreen.class)
 public abstract class StonecutterScreenMixin extends HandledScreen<StonecutterScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/stonecutter.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/stonecutter.png");
 	@Unique private static final Identifier EBI_RECIPE_TEXTURE = ModUtils.id("container/stonecutter/recipe");
 	@Unique private static final Identifier EBI_RECIPE_SELECTED_TEXTURE = ModUtils.id("container/stonecutter/recipe_selected");
 	@Unique private static final Identifier EBI_RECIPE_HIGHLIGHTED_TEXTURE = ModUtils.id("container/stonecutter/recipe_highlighted");
@@ -47,11 +41,10 @@ public abstract class StonecutterScreenMixin extends HandledScreen<StonecutterSc
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(

@@ -20,9 +20,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(HorseScreen.class)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/horse.png");
-
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/horse.png");
 	@Unique private static final Identifier EBI_CHEST_SLOTS_TEXTURE = ModUtils.id("container/horse/chest_slots");
 	@Unique private static final Identifier EBI_ARMOR_SLOT_TEXTURE = ModUtils.id("container/horse/armor_slot");
 	@Unique private static final Identifier EBI_SADDLE_SLOT_TEXTURE = ModUtils.id("container/horse/saddle_slot");
@@ -38,11 +36,10 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 			value = "INVOKE",
 			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V",
 			ordinal = 0
-		),
-		index = 0
+		)
 	)
 	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? BIGGER_TEXTURE : original;
+		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@WrapOperation(

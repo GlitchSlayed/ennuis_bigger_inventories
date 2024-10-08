@@ -7,11 +7,11 @@
 	"authors": [
 		"Ennui Langeweile"
 	],
-  "contact": {
-    "homepage": "https://modrinth.com/mod/ennuis_bigger_inventories",
-    "issues": "https://github.com/EnnuiL/ennuis_bigger_inventories/issues",
-    "sources": "https://github.com/EnnuiL/ennuis_bigger_inventories"
-  },
+	"contact": {
+		"homepage": "https://modrinth.com/mod/ennuis_bigger_inventories",
+		"issues": "https://github.com/EnnuiL/ennuis_bigger_inventories/issues",
+		"sources": "https://github.com/EnnuiL/ennuis_bigger_inventories"
+	},
 	"icon": "assets/ennuis_bigger_inventories/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -20,17 +20,17 @@
 	},
 	"mixins": ["ennuis_bigger_inventories.mixins.json"],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
-		"fabric-api": ">=0.100.1"
+		"fabricloader": ">=0.16.2",
+		"minecraft": "=1.21.1",
+		"fabric-api": ">=0.102.0"
 	},
 	"custom": {
-    "loom:injected_interfaces": {
-      "net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyClientPlayerInteractionManager"],
-      "net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyPlayerInventory"],
-      "net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyWorld"],
-      "net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorld"],
-      "net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorldProperties"]
-    }
-  }
+		"loom:injected_interfaces": {
+			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyClientPlayerInteractionManager"],
+			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyPlayerInventory"],
+			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyWorld"],
+			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorld"],
+			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorldProperties"]
+		}
+	}
 }

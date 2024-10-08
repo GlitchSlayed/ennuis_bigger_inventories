@@ -18,8 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @ClientOnly
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> {
-	@Unique
-	private static final Identifier BIGGER_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
 
 	private InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
 		super(screenHandler, playerInventory, text);
@@ -48,7 +47,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
 	)
 	private Identifier modifyTexture(Identifier original) {
 		if (this.client.interactionManager.isTenfoursized()) {
-			return BIGGER_TEXTURE;
+			return EBI_TEXTURE;
 		} else {
 			return original;
 		}
