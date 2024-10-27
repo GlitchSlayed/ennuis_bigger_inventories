@@ -22,7 +22,7 @@ repositories {}
 
 dependencies {
 	minecraft(libs.minecraft)
-	mappings(variantOf(libs.quilt.mappings) { classifier("intermediary-v2") })
+	mappings(loom.officialMojangMappings())
 	modImplementation(libs.quilt.loader)
 
 	modImplementation(libs.fabric.api)

@@ -1,8 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.inventory.SlotRange;
-import net.minecraft.inventory.SlotRanges;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -12,20 +10,22 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import net.minecraft.world.inventory.SlotRange;
+import net.minecraft.world.inventory.SlotRanges;
 
 @Mixin(SlotRanges.class)
 public interface SlotRangesAccessor {
-	@Accessor("SLOT_RANGES")
+	@Accessor("SLOTS")
 	@Final
 	@Mutable
-	static List<SlotRange> getSlotRanges() {
+	static List<SlotRange> getSlots() {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 
-	@Accessor("SLOT_RANGES")
+	@Accessor("SLOTS")
 	@Final
 	@Mutable
-	static void setSlotRanges(List<SlotRange> slotRanges) {
+	static void setSlots(List<SlotRange> slots) {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 
@@ -36,10 +36,10 @@ public interface SlotRangesAccessor {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 
-	@Accessor("FROM_NAME")
+	@Accessor("NAME_LOOKUP")
 	@Final
 	@Mutable
-	static void setFromName(Function<String, SlotRange> function) {
+	static void setNameLookup(Function<String, SlotRange> nameLookup) {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 

@@ -5,14 +5,14 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.serialization.Dynamic;
 import io.github.ennuil.ennuis_bigger_inventories.impl.HackjobKitImpl;
-import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.WorldInfoExtensions;
+import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.LevelSettingsExtensions;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 import net.minecraft.server.Main;
 import net.minecraft.server.WorldLoader;
-import net.minecraft.server.dedicated.ServerPropertiesLoader;
-import net.minecraft.world.WorldInfo;
+import net.minecraft.server.dedicated.DedicatedServerSettings;
+import net.minecraft.world.level.LevelSettings;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,15 +32,14 @@ public abstract class MainMixin {
 	@Final
 	private static Logger LOGGER;
 
-	// TODO - Replace me with a MixinExtras 0.4.0 @Share! At least when that happens!
 	@Unique
 	private static OptionSpec<Void> expandAllInventoriesOptionSpec;
 
-	@ModifyExpressionValue(method = "method_43613", at = @At(value = "NEW", target = "(Ljava/lang/String;Lnet/minecraft/world/GameMode;ZLnet/minecraft/world/Difficulty;ZLnet/minecraft/world/GameRules;Lnet/minecraft/server/world/FeatureAndDataSettings;)Lnet/minecraft/world/WorldInfo;"))
-	private static WorldInfo tenfoursizeServerWorld(WorldInfo original) {
+	@ModifyExpressionValue(method = "method_43613", at = @At(value = "NEW", target = "(Ljava/lang/String;Lnet/minecraft/world/level/GameType;ZLnet/minecraft/world/Difficulty;ZLnet/minecraft/world/level/GameRules;Lnet/minecraft/world/level/WorldDataConfiguration;)Lnet/minecraft/world/level/LevelSettings;"))
+	private static LevelSettings tenfoursizeServerLevel(LevelSettings original) {
 		// Also set up the HackjobKit!
 		HackjobKitImpl.TenfoursizedProperty.setInstance(true);
-		((WorldInfoExtensions) (Object) original).ebi$setTenfoursized(true);
+		((LevelSettingsExtensions) (Object) original).ebi$setTenfoursized(true);
 		return original;
 	}
 
@@ -54,10 +53,10 @@ public abstract class MainMixin {
 		method = "method_43613",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/registry/DynamicRegistryManager$Frozen;get(Lnet/minecraft/registry/RegistryKey;)Lnet/minecraft/registry/Registry;"
+			target = "Lnet/minecraft/core/RegistryAccess$Frozen;registryOrThrow(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/core/Registry;"
 		)
 	)
-	private static void tenfoursizePreexistingSaveProperties(Dynamic<?> dynamic, OptionSet optionSet, OptionSpec<?> optionSpec, ServerPropertiesLoader serverPropertiesLoader, OptionSpec<?> optionSpec2, WorldLoader.DataLoadContext dataLoadContext, CallbackInfoReturnable<WorldLoader.DataLoadOutput<?>> cir, @Local(argsOnly = true) LocalRef<Dynamic<?>> dynamicRef) {
+	private static void tenfoursizePreexistingSaveProperties(Dynamic<?> dynamic, OptionSet optionSet, OptionSpec<?> optionSpec, DedicatedServerSettings serverPropertiesLoader, OptionSpec<?> optionSpec2, WorldLoader.DataLoadContext dataLoadContext, CallbackInfoReturnable<WorldLoader.DataLoadOutput<?>> cir, @Local(argsOnly = true) LocalRef<Dynamic<?>> dynamicRef) {
 		if (dynamic != null) {
 			var tenfoursized = dynamic.get("ennuis_bigger_inventories:is_tenfoursized").asBoolean(false);
 			if (optionSet.has(expandAllInventoriesOptionSpec) && !tenfoursized) {

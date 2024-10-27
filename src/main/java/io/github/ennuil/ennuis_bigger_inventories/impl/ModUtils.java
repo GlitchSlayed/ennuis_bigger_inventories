@@ -1,6 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModUtils {
 	// This is a convenience for my own stuff!
@@ -8,9 +8,9 @@ public class ModUtils {
 	// I will commit murder if you ever change this so something else.
 	public static final String MOD_NAMESPACE = "ennuis_bigger_inventories";
 
-	private static final Identifier MOD_NAMESPACE_ID = Identifier.of(MOD_NAMESPACE, "");
+	private static final ResourceLocation MOD_NAMESPACE_ID = ResourceLocation.fromNamespaceAndPath(MOD_NAMESPACE, "");
 
-	public static Identifier id(String path) {
+	public static ResourceLocation id(String path) {
 		return MOD_NAMESPACE_ID.withPath(path);
 	}
 }

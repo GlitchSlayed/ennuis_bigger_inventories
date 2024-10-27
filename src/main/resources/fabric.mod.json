@@ -26,11 +26,11 @@
 	},
 	"custom": {
 		"loom:injected_interfaces": {
-			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyClientPlayerInteractionManager"],
-			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyPlayerInventory"],
-			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyWorld"],
-			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorld"],
-			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerWorldProperties"]
+			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyMultiPlayerGameMode"],
+			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyInventory"],
+			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyLevel"],
+			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerLevel"],
+			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerLevelData"]
 		}
 	}
 }

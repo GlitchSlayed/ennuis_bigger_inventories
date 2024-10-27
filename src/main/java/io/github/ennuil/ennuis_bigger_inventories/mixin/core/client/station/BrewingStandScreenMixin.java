@@ -5,12 +5,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.BrewingStandScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.BrewingStandScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.BrewingStandMenu;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -19,70 +19,70 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @ClientOnly
 @Mixin(BrewingStandScreen.class)
-public abstract class BrewingStandScreenMixin extends HandledScreen<BrewingStandScreenHandler> {
-	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/brewing_stand.png");
-	@Unique private static final Identifier EBI_BREW_PROGRESS_TEXTURE = ModUtils.id("container/brewing_stand/brew_progress");
-	@Unique private static final Identifier EBI_BUBBLES_TEXTURE = ModUtils.id("container/brewing_stand/bubbles");
-	@Unique private static final Identifier EBI_FUEL_LENGTH_TEXTURE = ModUtils.id("container/brewing_stand/fuel_length");
+public abstract class BrewingStandScreenMixin extends AbstractContainerScreen<BrewingStandMenu> {
+	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/brewing_stand.png");
+	@Unique private static final ResourceLocation EBI_BREW_PROGRESS_SPRITE = ModUtils.id("container/brewing_stand/brew_progress");
+	@Unique private static final ResourceLocation EBI_BUBBLES_SPRITE = ModUtils.id("container/brewing_stand/bubbles");
+	@Unique private static final ResourceLocation EBI_FUEL_LENGTH_SPRITE = ModUtils.id("container/brewing_stand/fuel_length");
 
-	private BrewingStandScreenMixin(BrewingStandScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+	private BrewingStandScreenMixin(BrewingStandMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title);
 	}
 
 	@ModifyArg(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
 		)
 	)
-	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
+	private ResourceLocation modifyTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@WrapOperation(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V",
 			ordinal = 0
 		)
 	)
-	private void modifyFuelLengthTexture(GuiGraphics graphics, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_FUEL_LENGTH_TEXTURE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 70, y, width, height);
+	private void modifyFuelLengthTexture(GuiGraphics graphics, ResourceLocation texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
+		if (this.minecraft.gameMode.isTenfoursized()) {
+			graphics.blitSprite(EBI_FUEL_LENGTH_SPRITE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 70, y, width, height);
 		} else {
 			original.call(graphics, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}
 	}
 
 	@WrapOperation(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V",
 			ordinal = 1
 		)
 	)
-	private void modifyBrewProgressTexture(GuiGraphics graphics, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_BREW_PROGRESS_TEXTURE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 107, y, width, height);
+	private void modifyBrewProgressTexture(GuiGraphics graphics, ResourceLocation texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
+		if (this.minecraft.gameMode.isTenfoursized()) {
+			graphics.blitSprite(EBI_BREW_PROGRESS_SPRITE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 107, y, width, height);
 		} else {
 			original.call(graphics, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}
 	}
 
 	@WrapOperation(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V",
 			ordinal = 2
 		)
 	)
-	private void modifyBubblesTexture(GuiGraphics graphics, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_BUBBLES_TEXTURE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 73, y, width, height);
+	private void modifyBubblesTexture(GuiGraphics graphics, ResourceLocation texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
+		if (this.minecraft.gameMode.isTenfoursized()) {
+			graphics.blitSprite(EBI_BUBBLES_SPRITE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 73, y, width, height);
 		} else {
 			original.call(graphics, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}

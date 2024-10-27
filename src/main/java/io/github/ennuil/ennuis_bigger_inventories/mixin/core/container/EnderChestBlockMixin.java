@@ -3,38 +3,38 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.core.container;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import io.github.ennuil.ennuis_bigger_inventories.impl.screen.GenericTensizedContainerScreenHandler;
-import net.minecraft.block.EnderChestBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EnderChestInventory;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.text.Text;
+import io.github.ennuil.ennuis_bigger_inventories.impl.screen.TenfoursizedContainerMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.OptionalInt;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.PlayerEnderChestContainer;
+import net.minecraft.world.level.block.EnderChestBlock;
 
 @Mixin(EnderChestBlock.class)
 public abstract class EnderChestBlockMixin {
 	@Shadow
 	@Final
-	private static Text CONTAINER_NAME;
+	private static Component CONTAINER_TITLE;
 
 	@WrapOperation(
-		method = "onUse",
+		method = "useWithoutItem",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/entity/player/PlayerEntity;openHandledScreen(Lnet/minecraft/screen/NamedScreenHandlerFactory;)Ljava/util/OptionalInt;"
+			target = "Lnet/minecraft/world/entity/player/Player;openMenu(Lnet/minecraft/world/MenuProvider;)Ljava/util/OptionalInt;"
 		)
 	)
-	private OptionalInt openTensizedHandledScreen(PlayerEntity instance, NamedScreenHandlerFactory factory, Operation<OptionalInt> original, @Local(argsOnly = true) PlayerEntity player, @Local EnderChestInventory inventory) {
-		if (player.getWorld().inferTenfoursized()) {
-			return player.openHandledScreen(
-				new SimpleNamedScreenHandlerFactory(
-					(syncId, playerInventory, playerEntity) -> GenericTensizedContainerScreenHandler.createGeneric10x3(syncId, playerInventory, inventory), CONTAINER_NAME
+	private OptionalInt openTenfoursizedMenu(Player instance, MenuProvider factory, Operation<OptionalInt> original, @Local(argsOnly = true) Player player, @Local PlayerEnderChestContainer container) {
+		if (player.level().inferTenfoursized()) {
+			return player.openMenu(
+				new SimpleMenuProvider(
+					(syncId, inventory, player2) -> TenfoursizedContainerMenu.threeRows(syncId, inventory, container), CONTAINER_TITLE
 				)
 			);
 		} else {

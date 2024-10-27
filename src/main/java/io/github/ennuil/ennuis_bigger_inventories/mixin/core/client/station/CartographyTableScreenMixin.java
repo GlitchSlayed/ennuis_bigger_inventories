@@ -6,12 +6,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.CartographyTableScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CartographyTableScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.CartographyTableMenu;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -20,186 +20,165 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @ClientOnly
 @Mixin(CartographyTableScreen.class)
-public abstract class CartographyTableScreenMixin extends HandledScreen<CartographyTableScreenHandler> {
-	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/cartography_table.png");
-	@Unique private static final Identifier EBI_ERROR_TEXTURE = ModUtils.id("container/cartography_table/error");
-	@Unique private static final Identifier EBI_LOCKED_TEXTURE = ModUtils.id("container/cartography_table/locked");
-	@Unique private static final Identifier EBI_MAP_TEXTURE = ModUtils.id("container/cartography_table/map");
-	@Unique private static final Identifier EBI_DUPLICATED_MAP_TEXTURE = ModUtils.id("container/cartography_table/duplicated_map");
-	@Unique private static final Identifier EBI_SCALED_MAP_TEXTURE = ModUtils.id("container/cartography_table/scaled_map");
+public abstract class CartographyTableScreenMixin extends AbstractContainerScreen<CartographyTableMenu> {
+	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/cartography_table.png");
+	@Unique private static final ResourceLocation EBI_ERROR_SPRITE = ModUtils.id("container/cartography_table/error");
+	@Unique private static final ResourceLocation EBI_LOCKED_SPRITE = ModUtils.id("container/cartography_table/locked");
+	@Unique private static final ResourceLocation EBI_MAP_SPRITE = ModUtils.id("container/cartography_table/map");
+	@Unique private static final ResourceLocation EBI_DUPLICATED_MAP_SPRITE = ModUtils.id("container/cartography_table/duplicated_map");
+	@Unique private static final ResourceLocation EBI_SCALED_MAP_SPRITE = ModUtils.id("container/cartography_table/scaled_map");
 
-	private CartographyTableScreenMixin(CartographyTableScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+	private CartographyTableScreenMixin(CartographyTableMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title);
 	}
 
 	@ModifyArg(
-		method = {
-			"drawBackground",
-			"drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V"
-		},
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
 		)
 	)
-	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
+	private ResourceLocation modifyTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
-	private Identifier modifyErrorTexture1(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_ERROR_TEXTURE : original;
+	private ResourceLocation modifyErrorTexture1(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_ERROR_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)
-	private Identifier modifyErrorTexture2(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_ERROR_TEXTURE : original;
+	private ResourceLocation modifyErrorTexture2(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_ERROR_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
-	private Identifier modifyScaledMapTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_SCALED_MAP_TEXTURE : original;
+	private ResourceLocation modifyScaledMapTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_SCALED_MAP_SPRITE : original;
 	}
 
 	@WrapOperation(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)
-	private void modifyDuplicatedMapTexture1(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
-		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_DUPLICATED_MAP_TEXTURE,  i + 76 + 16, y, width, 50);
+	private void modifyDuplicatedMapTexture1(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
+		if (this.minecraft.gameMode.isTenfoursized()) {
+			graphics.blitSprite(EBI_DUPLICATED_MAP_SPRITE,  i + 76 + 16, y, width, 50);
 		} else {
 			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 
 	@WrapOperation(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 2
 		)
 	)
-	private void modifyDuplicatedMapTexture2(GuiGraphics graphics, Identifier texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
-		if (this.client.interactionManager.isTenfoursized()) {
-			graphics.drawGuiTexture(EBI_DUPLICATED_MAP_TEXTURE,  i + 76, y, width, 50);
+	private void modifyDuplicatedMapTexture2(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
+		if (this.minecraft.gameMode.isTenfoursized()) {
+			graphics.blitSprite(EBI_DUPLICATED_MAP_SPRITE,  i + 76, y, width, 50);
 		} else {
 			original.call(graphics, texture, x, y, width, height);
 		}
 	}
 
 	@ModifyArg(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 3
 		)
 	)
-	private Identifier modifyLockedMapTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_MAP_TEXTURE : original;
+	private ResourceLocation modifyLockedMapTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_MAP_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 4
 		)
 	)
-	private Identifier modifyLockedLockTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_LOCKED_TEXTURE : original;
+	private ResourceLocation modifyLockedLockTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_LOCKED_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
+		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 5
 		)
 	)
-	private Identifier modifyMapTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_MAP_TEXTURE : original;
+	private ResourceLocation modifyMapTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_MAP_SPRITE : original;
 	}
 
-	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=35"))
+	@ModifyExpressionValue(method = "renderBg", at = @At(value = "CONSTANT", args = "intValue=35"))
 	private int modify35(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 44 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 44 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=67")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=67"))
 	private int modify67(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 76 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 76 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=86")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=86"))
 	private int modify86(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 95 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 95 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=85")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=85"))
 	private int modify85(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 94 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 94 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=70")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=70"))
 	private int modify70(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 79 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 79 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=71")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=71"))
 	private int modify71(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 80 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 80 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "drawMap(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/item/map/MapId;Lnet/minecraft/item/map/MapState;ZZZZ)V",
-		at = @At(value = "CONSTANT", args = "intValue=118")
-	)
+	@ModifyExpressionValue(method = "renderResultingMap", at = @At(value = "CONSTANT", args = "intValue=118"))
 	private int modify118(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 127 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 127 : original;
 	}
 }

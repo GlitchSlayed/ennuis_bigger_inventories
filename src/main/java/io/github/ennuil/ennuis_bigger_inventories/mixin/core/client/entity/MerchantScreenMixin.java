@@ -3,12 +3,12 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.entity;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.MerchantScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.MerchantScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.MerchantScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MerchantMenu;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,139 +17,139 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @ClientOnly
 @Mixin(MerchantScreen.class)
-public abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler> {
-	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/villager.png");
-	@Unique private static final Identifier EBI_OUT_OF_STOCK_TEXTURE = ModUtils.id("container/villager/out_of_stock");
-	@Unique private static final Identifier EBI_EXPERIENCE_BAR_BACKGROUND_TEXTURE = ModUtils.id("container/villager/experience_bar_background");
-	@Unique private static final Identifier EBI_EXPERIENCE_BAR_CURRENT_TEXTURE = ModUtils.id("container/villager/experience_bar_current");
-	@Unique private static final Identifier EBI_EXPERIENCE_BAR_RESULT_TEXTURE = ModUtils.id("container/villager/experience_bar_result");
-	@Unique private static final Identifier EBI_SCROLLER_TEXTURE = ModUtils.id("container/villager/scroller");
-	@Unique private static final Identifier EBI_SCROLLER_DISABLED_TEXTURE = ModUtils.id("container/villager/scroller_disabled");
-	@Unique private static final Identifier EBI_TRADE_ARROW_TEXTURE = ModUtils.id("container/villager/trade_arrow");
-	@Unique private static final Identifier EBI_TRADE_ARROW_OUT_OF_STOCK_TEXTURE = ModUtils.id("container/villager/trade_arrow_out_of_stock");
+public abstract class MerchantScreenMixin extends AbstractContainerScreen<MerchantMenu> {
+	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/villager.png");
+	@Unique private static final ResourceLocation EBI_OUT_OF_STOCK_SPRITE = ModUtils.id("container/villager/out_of_stock");
+	@Unique private static final ResourceLocation EBI_EXPERIENCE_BAR_BACKGROUND_SPRITE = ModUtils.id("container/villager/experience_bar_background");
+	@Unique private static final ResourceLocation EBI_EXPERIENCE_BAR_CURRENT_SPRITE = ModUtils.id("container/villager/experience_bar_current");
+	@Unique private static final ResourceLocation EBI_EXPERIENCE_BAR_RESULT_SPRITE = ModUtils.id("container/villager/experience_bar_result");
+	@Unique private static final ResourceLocation EBI_SCROLLER_SPRITE = ModUtils.id("container/villager/scroller");
+	@Unique private static final ResourceLocation EBI_SCROLLER_DISABLED_SPRITE = ModUtils.id("container/villager/scroller_disabled");
+	@Unique private static final ResourceLocation EBI_TRADE_ARROW_SPRITE = ModUtils.id("container/villager/trade_arrow");
+	@Unique private static final ResourceLocation EBI_TRADE_ARROW_OUT_OF_STOCK_SPRITE = ModUtils.id("container/villager/trade_arrow_out_of_stock");
 
-	private MerchantScreenMixin(MerchantScreenHandler handler, PlayerInventory inventory, Text title) {
-		super(handler, inventory, title);
+	private MerchantScreenMixin(MerchantMenu menu, Inventory inventory, Component title) {
+		super(menu, inventory, title);
 	}
 
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=276"))
-	private int modify276(int original, @Local(argsOnly = true) PlayerInventory playerInventory) {
-		return playerInventory.isTenfoursized() ? 294 : original;
+	private int modify276(int original, @Local(argsOnly = true) Inventory inventory) {
+		return inventory.isTenfoursized() ? 294 : original;
 	}
 
 	@ModifyArg(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawTexture(Lnet/minecraft/util/Identifier;IIIFFIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIFFIIII)V"
 		)
 	)
-	private Identifier modifyTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_TEXTURE : original;
+	private ResourceLocation modifyTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@ModifyArg(
-		method = "drawBackground",
+		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V"
 		)
 	)
-	private Identifier modifyOutOfStockTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_OUT_OF_STOCK_TEXTURE : original;
+	private ResourceLocation modifyOutOfStockTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_OUT_OF_STOCK_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawLevelInfo",
+		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V"
 		)
 	)
-	private Identifier modifyExpBarBackgroundTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_EXPERIENCE_BAR_BACKGROUND_TEXTURE : original;
+	private ResourceLocation modifyExpBarBackgroundTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_EXPERIENCE_BAR_BACKGROUND_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawLevelInfo",
+		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIIII)V",
 			ordinal = 0
 		)
 	)
-	private Identifier modifyExpBarCurrentTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_EXPERIENCE_BAR_CURRENT_TEXTURE : original;
+	private ResourceLocation modifyExpBarCurrentTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_EXPERIENCE_BAR_CURRENT_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "drawLevelInfo",
+		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIIII)V",
 			ordinal = 1
 		)
 	)
-	private Identifier modifyExpBarResultTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_EXPERIENCE_BAR_RESULT_TEXTURE : original;
+	private ResourceLocation modifyExpBarResultTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_EXPERIENCE_BAR_RESULT_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "renderScrollbar",
+		method = "renderScroller",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
 			ordinal = 0
 		)
 	)
-	private Identifier modifyScrollerTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_SCROLLER_TEXTURE : original;
+	private ResourceLocation modifyScrollerTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_SCROLLER_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "renderScrollbar",
+		method = "renderScroller",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
 			ordinal = 1
 		)
 	)
-	private Identifier modifyDisabledScrollerTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_SCROLLER_DISABLED_TEXTURE : original;
+	private ResourceLocation modifyDisabledScrollerTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_SCROLLER_DISABLED_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "renderArrow",
+		method = "renderButtonArrows",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
 			ordinal = 0
 		)
 	)
-	private Identifier modifyOutOfStockTradeArrowTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_TRADE_ARROW_OUT_OF_STOCK_TEXTURE : original;
+	private ResourceLocation modifyOutOfStockTradeArrowTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_TRADE_ARROW_OUT_OF_STOCK_SPRITE : original;
 	}
 
 	@ModifyArg(
-		method = "renderArrow",
+		method = "renderButtonArrows",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
 			ordinal = 1
 		)
 	)
-	private Identifier modifyTradeArrowTexture(Identifier original) {
-		return this.client.interactionManager.isTenfoursized() ? EBI_TRADE_ARROW_TEXTURE : original;
+	private ResourceLocation modifyTradeArrowTexture(ResourceLocation original) {
+		return this.minecraft.gameMode.isTenfoursized() ? EBI_TRADE_ARROW_SPRITE : original;
 	}
 
 	// It turns out the generic "Error" texture was split wrongly on 1.20.2! This is fixed here
-	@ModifyExpressionValue(method = "drawBackground", at = @At(value = "CONSTANT", args = "intValue=83"))
+	@ModifyExpressionValue(method = "renderBg", at = @At(value = "CONSTANT", args = "intValue=83"))
 	private int modifyErrorX(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 92 + 1 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 92 + 1 : original;
 	}
 
-	@ModifyExpressionValue(method = "drawLevelInfo", at = @At(value = "CONSTANT", args = "intValue=136"))
+	@ModifyExpressionValue(method = "renderProgressBar", at = @At(value = "CONSTANT", args = "intValue=136"))
 	private int modifyExpBarX(int original) {
-		return this.client.interactionManager.isTenfoursized() ? 145 : original;
+		return this.minecraft.gameMode.isTenfoursized() ? 145 : original;
 	}
 }
