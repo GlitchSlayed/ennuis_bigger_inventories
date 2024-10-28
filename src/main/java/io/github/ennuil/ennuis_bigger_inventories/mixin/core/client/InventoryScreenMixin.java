@@ -2,8 +2,9 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @ClientOnly
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends EffectRenderingInventoryScreen<InventoryMenu> {
+public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
 	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
 
-	private InventoryScreenMixin(InventoryMenu menu, Inventory inventory, Component title) {
-		super(menu, inventory, title);
+	private InventoryScreenMixin(InventoryMenu recipeBookMenu, RecipeBookComponent<?> recipeBookComponent, Inventory inventory, Component title) {
+		super(recipeBookMenu, recipeBookComponent, inventory, title);
 	}
 
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=97"))
@@ -33,7 +34,7 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
 		return original;
 	}
 
-	@ModifyExpressionValue(method = {"init", "method_19891"}, at = @At(value = "CONSTANT", args = "intValue=104"))
+	@ModifyExpressionValue(method = {"init", "getRecipeBookButtonPosition"}, at = @At(value = "CONSTANT", args = "intValue=104"))
 	private int modify104(int original) {
 		return this.minecraft.gameMode.isTenfoursized() ? 122 : original;
 	}
@@ -42,7 +43,7 @@ public abstract class InventoryScreenMixin extends EffectRenderingInventoryScree
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
 		)
 	)
 	private ResourceLocation modifyTexture(ResourceLocation original) {

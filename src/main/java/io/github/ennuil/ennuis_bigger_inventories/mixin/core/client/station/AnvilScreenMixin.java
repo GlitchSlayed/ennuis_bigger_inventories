@@ -8,6 +8,7 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.ItemCombinerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,6 +18,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import java.util.function.Function;
 
 @ClientOnly
 @Mixin(AnvilScreen.class)
@@ -45,15 +48,15 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> {
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
-	private void modifyTextFieldTexture(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+	private void modifyTextFieldTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			var textFieldTexture = this.menu.getSlot(0).hasItem() ? EBI_TEXT_FIELD_SPRITE : EBI_TEXT_FIELD_DISABLED_SPRITE;
-			graphics.blitSprite(textFieldTexture, this.leftPos + 54, y, 128, height);
+			graphics.blitSprite(function, textFieldTexture, this.leftPos + 54, y, 128, height);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 
@@ -61,14 +64,14 @@ public abstract class AnvilScreenMixin extends ItemCombinerScreen<AnvilMenu> {
 		method = "renderErrorIcon",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
-	private void modifyErrorTexture(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+	private void modifyErrorTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(EBI_ERROR_SPRITE, this.leftPos + 108, y, width, height);
+			graphics.blitSprite(function, EBI_ERROR_SPRITE, this.leftPos + 108, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 

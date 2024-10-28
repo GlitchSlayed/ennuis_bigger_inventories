@@ -24,11 +24,6 @@ public abstract class InventoryMenuMixin {
 		return this.owner.getInventory().isTenfoursized() ? 172 : original;
 	}
 
-	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=9"))
-	private int modifyNines(int original) {
-		return this.owner.getInventory().isTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=39"))
 	private int modify39(int original) {
 		return this.owner.getInventory().isTenfoursized() ? 39 + 4 : original;

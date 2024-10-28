@@ -41,7 +41,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIFFIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
 		)
 	)
 	private ResourceLocation modifyTexture(ResourceLocation original) {
@@ -52,7 +52,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
 	private ResourceLocation modifyOutOfStockTexture(ResourceLocation original) {
@@ -63,7 +63,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
 	private ResourceLocation modifyExpBarBackgroundTexture(ResourceLocation original) {
@@ -74,7 +74,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V",
 			ordinal = 0
 		)
 	)
@@ -86,7 +86,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderProgressBar",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIIIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V",
 			ordinal = 1
 		)
 	)
@@ -98,7 +98,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderScroller",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
@@ -110,7 +110,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderScroller",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)
@@ -122,7 +122,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderButtonArrows",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
@@ -134,7 +134,7 @@ public abstract class MerchantScreenMixin extends AbstractContainerScreen<Mercha
 		method = "renderButtonArrows",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)

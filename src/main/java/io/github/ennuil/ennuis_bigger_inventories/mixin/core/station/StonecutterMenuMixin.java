@@ -23,14 +23,6 @@ public abstract class StonecutterMenuMixin {
 		return this.level.inferTenfoursized() ? 161 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original) {
-		return this.level.inferTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "quickMoveStack", at = @At(value = "CONSTANT", args = "intValue=29"))
 	private int modify31(int original) {
 		return this.level.inferTenfoursized() ? 2 + 10 * 3 : original;

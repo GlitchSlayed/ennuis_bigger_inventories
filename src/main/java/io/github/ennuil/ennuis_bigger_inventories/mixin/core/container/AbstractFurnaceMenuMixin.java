@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(AbstractFurnaceMenu.class)
 public abstract class AbstractFurnaceMenuMixin {
 	@ModifyArg(
-		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
+		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/inventory/Slot;<init>(Lnet/minecraft/world/Container;III)V",
@@ -29,7 +29,7 @@ public abstract class AbstractFurnaceMenuMixin {
 	}
 
 	@ModifyArg(
-		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
+		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/inventory/FurnaceFuelSlot;<init>(Lnet/minecraft/world/inventory/AbstractFurnaceMenu;Lnet/minecraft/world/Container;III)V"
@@ -41,7 +41,7 @@ public abstract class AbstractFurnaceMenuMixin {
 	}
 
 	@ModifyArg(
-		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
+		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/inventory/FurnaceResultSlot;<init>(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/Container;III)V"
@@ -50,18 +50,6 @@ public abstract class AbstractFurnaceMenuMixin {
 	)
 	private int modifyX3(int original, @Local(argsOnly = true) Inventory inventory) {
 		return inventory.isTenfoursized() ? 125 : original;
-	}
-
-	// Modify the relevant nines
-	@ModifyExpressionValue(
-		method = "<init>(Lnet/minecraft/world/inventory/MenuType;Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/world/inventory/RecipeBookType;ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
-		at = @At(
-			value = "CONSTANT",
-			args = "intValue=9"
-		)
-	)
-	private int modifyNine(int original, MenuType<?> type, RecipeType<? extends AbstractCookingRecipe> recipeType, RecipeBookType recipeBookType, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
 	}
 
 	// 0 to 2 is furnace, 3 to 29 is inv body, 30 to 38 is hotbar

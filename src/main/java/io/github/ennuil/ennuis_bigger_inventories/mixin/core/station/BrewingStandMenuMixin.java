@@ -11,14 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BrewingStandMenuMixin {
 	@ModifyExpressionValue(
 		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;)V",
 		at = @At(value = "CONSTANT", args = "intValue=56")
 	)
 	private int modifyPotion1X(int original, int syncId, Inventory inventory) {

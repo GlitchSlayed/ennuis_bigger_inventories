@@ -7,12 +7,15 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.function.Function;
 
 @ClientOnly
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconScreenButton")
@@ -30,10 +33,10 @@ public abstract class BaseButtonWidgetMixin extends AbstractButton {
 		method = "renderWidget",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
-	private void modifyPatternTexture(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local ResourceLocation id) {
+	private void modifyPatternTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local ResourceLocation id) {
 		// Wait ewwwwww, Minecraft uses MinecraftClient.getInstance a lot inside of widgets
 		if (Minecraft.getInstance().gameMode.isTenfoursized()) {
 			ResourceLocation patternTexture;
@@ -46,9 +49,9 @@ public abstract class BaseButtonWidgetMixin extends AbstractButton {
 			} else {
 				patternTexture = EBI_BUTTON_SPRITE;
 			}
-			graphics.blitSprite(patternTexture, x,  y, width, height);
+			graphics.blitSprite(function, patternTexture, x,  y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 }

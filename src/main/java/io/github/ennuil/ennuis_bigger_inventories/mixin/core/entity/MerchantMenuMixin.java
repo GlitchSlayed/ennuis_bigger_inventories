@@ -45,14 +45,6 @@ public abstract class MerchantMenuMixin {
 		return inventory.isTenfoursized() ? 229 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/item/trading/Merchant;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "quickMoveStack", at = @At(value = "CONSTANT", args = "intValue=30"))
 	private int modify30(int original) {
 		return this.inventory.isTenfoursized() ? 3 + 10 * 3 : original;

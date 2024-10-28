@@ -15,12 +15,4 @@ public abstract class HopperMenuMixin {
 	private int modify44(int original, int syncId, Inventory inventory) {
 		return inventory.isTenfoursized() ? 53 : original;
 	}
-
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/Container;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
 }

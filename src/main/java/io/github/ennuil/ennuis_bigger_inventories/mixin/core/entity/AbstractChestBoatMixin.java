@@ -8,26 +8,26 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.screen.TenfoursizedContai
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.AbstractBoat;
+import net.minecraft.world.entity.vehicle.AbstractChestBoat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@Mixin(ChestBoat.class)
-public abstract class ChestBoatMixin extends Boat {
-	private ChestBoatMixin(EntityType<? extends Boat> entityType, Level world) {
-		super(entityType, world);
+import java.util.function.Supplier;
+
+@Mixin(AbstractChestBoat.class)
+public abstract class AbstractChestBoatMixin extends AbstractBoat {
+	private AbstractChestBoatMixin(EntityType<? extends AbstractBoat> entityType, Level level, Supplier<Item> supplier) {
+		super(entityType, level, supplier);
 	}
 
 	@ModifyArg(
-		method = {
-			"<init>(Lnet/minecraft/world/level/Level;DDD)V",
-			"<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V"
-		},
+		method = "<init>",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/core/NonNullList;withSize(ILjava/lang/Object;)Lnet/minecraft/core/NonNullList;"

@@ -17,14 +17,6 @@ public abstract class LoomMenuMixin {
 		return inventory.isTenfoursized() ? 161 : original;
 	}
 
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "quickMoveStack", at = @At(value = "CONSTANT", args = "intValue=31"))
 	private int modify31(int original, Player player) {
 		return player.level().inferTenfoursized() ? 4 + 10 * 3 : original;

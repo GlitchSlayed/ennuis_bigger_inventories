@@ -40,7 +40,7 @@ public abstract class StonecutterScreenMixin extends AbstractContainerScreen<Sto
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
 		)
 	)
 	private ResourceLocation modifyTexture(ResourceLocation original) {
@@ -51,7 +51,7 @@ public abstract class StonecutterScreenMixin extends AbstractContainerScreen<Sto
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
 	private ResourceLocation modifyScrollerTexture(ResourceLocation original) {
@@ -73,7 +73,7 @@ public abstract class StonecutterScreenMixin extends AbstractContainerScreen<Sto
 		method = "renderButtons",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
 	private ResourceLocation modifyPatternTexture(ResourceLocation original) {

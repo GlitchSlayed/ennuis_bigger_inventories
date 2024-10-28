@@ -12,15 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BeaconMenuMixin {
 	@ModifyExpressionValue(
 		method = "<init>(ILnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modify9(int original, int syncId, Container container) {
-		// why did you cast it downnnnnnnnnnn
-		return ((Inventory) container).isTenfoursized() ? 10 : original;
-	}
-
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/Container;Lnet/minecraft/world/inventory/ContainerData;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
 		at = @At(value = "CONSTANT", args = "intValue=36")
 	)
 	private int modify36(int original, int syncId, Container container) {

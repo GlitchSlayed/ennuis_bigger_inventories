@@ -10,10 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(AbstractMinecartContainer.class)
 public abstract class AbstractMinecartContainerMixin {
 	@ModifyArg(
-		method = {
-			"<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
-			"<init>(Lnet/minecraft/world/entity/EntityType;DDDLnet/minecraft/world/level/Level;)V"
-		},
+		method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V",
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/core/NonNullList;withSize(ILjava/lang/Object;)Lnet/minecraft/core/NonNullList;"

@@ -53,7 +53,7 @@ public abstract class MainMixin {
 		method = "method_43613",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/core/RegistryAccess$Frozen;registryOrThrow(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/core/Registry;"
+			target = "Lnet/minecraft/core/RegistryAccess$Frozen;lookupOrThrow(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/core/Registry;"
 		)
 	)
 	private static void tenfoursizePreexistingSaveProperties(Dynamic<?> dynamic, OptionSet optionSet, OptionSpec<?> optionSpec, DedicatedServerSettings serverPropertiesLoader, OptionSpec<?> optionSpec2, WorldLoader.DataLoadContext dataLoadContext, CallbackInfoReturnable<WorldLoader.DataLoadOutput<?>> cir, @Local(argsOnly = true) LocalRef<Dynamic<?>> dynamicRef) {

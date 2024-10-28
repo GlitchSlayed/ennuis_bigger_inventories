@@ -8,9 +8,10 @@ import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -29,10 +30,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 @ClientOnly
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
+public abstract class CreativeModeInventoryScreenMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
 	@Unique private static final ResourceLocation EBI_SCROLLER_SPRITE = ModUtils.id("container/creative_inventory/scroller");
 	@Unique private static final ResourceLocation EBI_SCROLLER_DISABLED_SPRITE = ModUtils.id("container/creative_inventory/scroller_disabled");
 
@@ -248,7 +250,7 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V",
 			ordinal = 0
 		)
 	)
@@ -262,15 +264,15 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
-	private void modifyScrollerTexture(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+	private void modifyScrollerTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			var scrollerTexture = this.canScroll() ? EBI_SCROLLER_SPRITE : EBI_SCROLLER_DISABLED_SPRITE;
-			graphics.blitSprite(scrollerTexture, x + 18, y, width, height);
+			graphics.blitSprite(function, scrollerTexture, x + 18, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 
@@ -278,17 +280,17 @@ public abstract class CreativeModeInventoryScreenMixin extends EffectRenderingIn
 		method = "renderTabButton",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
-	private void modifyTabTexture(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
+	private void modifyTabTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			var tabTextures = bl2
 				? (bl ? EBI_SELECTED_TOP_TABS : EBI_UNSELECTED_TOP_TABS)
 				: (bl ? EBI_SELECTED_BOTTOM_TABS : EBI_UNSELECTED_BOTTOM_TABS);
-			graphics.blitSprite(tabTextures[Mth.clamp(i, 0, tabTextures.length)], x, y, width, height);
+			graphics.blitSprite(function, tabTextures[Mth.clamp(i, 0, tabTextures.length)], x, y, width, height);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 

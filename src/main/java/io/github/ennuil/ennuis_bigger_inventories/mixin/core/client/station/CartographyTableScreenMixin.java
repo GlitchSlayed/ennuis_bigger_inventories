@@ -8,6 +8,7 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CartographyTableScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,6 +18,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import java.util.function.Function;
 
 @ClientOnly
 @Mixin(CartographyTableScreen.class)
@@ -36,7 +39,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
 		)
 	)
 	private ResourceLocation modifyTexture(ResourceLocation original) {
@@ -47,7 +50,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
@@ -59,7 +62,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)
@@ -71,7 +74,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 0
 		)
 	)
@@ -83,15 +86,15 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 1
 		)
 	)
-	private void modifyDuplicatedMapTexture1(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
+	private void modifyDuplicatedMapTexture1(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(EBI_DUPLICATED_MAP_SPRITE,  i + 76 + 16, y, width, 50);
+			graphics.blitSprite(function, EBI_DUPLICATED_MAP_SPRITE,  i + 76 + 16, y, width, 50);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 
@@ -99,15 +102,15 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 2
 		)
 	)
-	private void modifyDuplicatedMapTexture2(GuiGraphics graphics, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
+	private void modifyDuplicatedMapTexture2(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) int i) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(EBI_DUPLICATED_MAP_SPRITE,  i + 76, y, width, 50);
+			graphics.blitSprite(function, EBI_DUPLICATED_MAP_SPRITE,  i + 76, y, width, 50);
 		} else {
-			original.call(graphics, texture, x, y, width, height);
+			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 
@@ -115,7 +118,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 3
 		)
 	)
@@ -127,7 +130,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 4
 		)
 	)
@@ -139,7 +142,7 @@ public abstract class CartographyTableScreenMixin extends AbstractContainerScree
 		method = "renderResultingMap",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
 			ordinal = 5
 		)
 	)

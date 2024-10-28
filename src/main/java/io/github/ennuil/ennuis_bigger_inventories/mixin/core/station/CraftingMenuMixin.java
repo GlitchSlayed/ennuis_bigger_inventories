@@ -16,17 +16,6 @@ public abstract class CraftingMenuMixin {
 
 	@ModifyExpressionValue(
 		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-		at = @At(
-			value = "CONSTANT",
-			args = "intValue=9"
-		)
-	)
-	private int modifyNines(int original) {
-		return player.level().inferTenfoursized() ? 10 : original;
-	}
-
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
 		at = @At(value = "CONSTANT", args = "intValue=30")
 	)
 	private int modify30(int original) {

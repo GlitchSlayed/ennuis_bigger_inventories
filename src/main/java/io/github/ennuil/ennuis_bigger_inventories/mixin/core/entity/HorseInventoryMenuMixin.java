@@ -31,12 +31,4 @@ public abstract class HorseInventoryMenuMixin {
 	private int modify80(int original, int syncId, Inventory inventory) {
 		return inventory.isTenfoursized() ? 91 : original;
 	}
-
-	@ModifyExpressionValue(
-		method = "<init>",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
 }

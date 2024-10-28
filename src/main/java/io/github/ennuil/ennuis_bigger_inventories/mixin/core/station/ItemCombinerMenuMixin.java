@@ -15,11 +15,6 @@ public abstract class ItemCombinerMenuMixin {
 	@Final
 	protected Player player;
 
-	@ModifyExpressionValue(method = "createInventorySlots", at = @At(value = "CONSTANT", args = "intValue=9"))
-	private int modifyNinesOnAddSlots(int original, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "getUseRowEnd", at = @At(value = "CONSTANT", args = "intValue=9"))
 	private int modifyNinesOnGetHotbarSlotsEnd(int original) {
 		return this.player.level().inferTenfoursized() ? 10 : original;

@@ -21,8 +21,8 @@
 	"mixins": ["ennuis_bigger_inventories.mixins.json"],
 	"depends": {
 		"fabricloader": ">=0.16.2",
-		"minecraft": "=1.21.1",
-		"fabric-api": ">=0.102.0"
+		"minecraft": "=1.21.3",
+		"fabric-api": ">=0.107.0"
 	},
 	"custom": {
 		"loom:injected_interfaces": {

@@ -11,14 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class CartographyTableMenuMixin {
 	@ModifyExpressionValue(
 		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, int syncId, Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
-	@ModifyExpressionValue(
-		method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
 		at = @At(value = "CONSTANT", args = "intValue=15", ordinal = 0)
 	)
 	private int modifyMapSlotX(int original, int syncId, Inventory inventory) {

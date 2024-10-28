@@ -20,11 +20,6 @@ public abstract class ItemPickerMenuMixin {
 		return player.level().inferTenfoursized() ? 10 : original;
 	}
 
-	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=9", ordinal = 3))
-	private int modifyInitNine3(int original, Player player) {
-		return player.level().inferTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(
 		method = {
 			"calculateRowCount",

@@ -10,14 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(CrafterMenu.class)
 public abstract class CrafterMenuMixin {
-	@ModifyExpressionValue(
-		method = "addSlots",
-		at = @At(value = "CONSTANT", args = "intValue=9")
-	)
-	private int modifyNines(int original, @Local(argsOnly = true) Inventory inventory) {
-		return inventory.isTenfoursized() ? 10 : original;
-	}
-
 	@ModifyExpressionValue(method = "addSlots", at = @At(value = "CONSTANT", args = "intValue=26"))
 	private int modify26(int original, @Local(argsOnly = true) Inventory inventory) {
 		return inventory.isTenfoursized() ? 26 + 9 - 2 : original;

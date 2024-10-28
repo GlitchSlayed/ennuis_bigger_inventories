@@ -61,7 +61,7 @@ public abstract class InventoryMixin implements Container, EnnyInventory {
 		return 10;
 	}
 
-	@ModifyExpressionValue(method = {"getSuitableHotbarSlot", "swapPaint"}, at = @At(value = "CONSTANT", args = "intValue=9"))
+	@ModifyExpressionValue(method = {"getSuitableHotbarSlot"}, at = @At(value = "CONSTANT", args = "intValue=9"))
 	private int modifyNines(int original) {
 		return this.isTenfoursized() ? 10 : original;
 	}

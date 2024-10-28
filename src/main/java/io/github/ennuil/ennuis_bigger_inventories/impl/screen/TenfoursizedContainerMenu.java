@@ -55,23 +55,16 @@ public class TenfoursizedContainerMenu extends AbstractContainerMenu {
 		this.container = container;
 		this.containerRows = containerRows;
 		container.startOpen(inventory.player);
-		int inventoryOffsetY = (this.containerRows - 4) * 18;
+		int inventoryOffsetY = 18 + this.containerRows * 18 + 13;
 
+		// TODO - Split me into a method!
 		for (int i = 0; i < this.containerRows; i++) {
 			for (int j = 0; j < 10; j++) {
 				this.addSlot(new Slot(container, j + i * 10, 8 + j * 18, 18 + i * 18));
 			}
 		}
 
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 10; j++) {
-				this.addSlot(new Slot(inventory, j + i * 10 + 10, 8 + j * 18, 103 + i * 18 + inventoryOffsetY));
-			}
-		}
-
-		for (int i = 0; i < 10; i++) {
-			this.addSlot(new Slot(inventory, i, 8 + i * 18, 161 + inventoryOffsetY));
-		}
+		this.addStandardInventorySlots(inventory, 8, inventoryOffsetY);
 	}
 
 

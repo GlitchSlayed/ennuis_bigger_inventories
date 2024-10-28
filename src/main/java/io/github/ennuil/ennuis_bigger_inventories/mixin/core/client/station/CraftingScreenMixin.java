@@ -27,7 +27,7 @@ public abstract class CraftingScreenMixin extends AbstractContainerScreen<Crafti
 		method = "renderBg",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/ResourceLocation;IIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
 		)
 	)
 	private ResourceLocation modifyTexture(ResourceLocation original) {
@@ -35,7 +35,7 @@ public abstract class CraftingScreenMixin extends AbstractContainerScreen<Crafti
 	}
 
 	// Widget padding
-	@ModifyExpressionValue(method = {"init", "method_19890"}, at = @At(value = "CONSTANT", args = "intValue=5", ordinal = 0))
+	@ModifyExpressionValue(method = {"init", "getRecipeBookButtonPosition"}, at = @At(value = "CONSTANT", args = "intValue=5", ordinal = 0))
 	private int modify5(int original) {
 		return this.minecraft.gameMode.isTenfoursized() ? 11 : original;
 	}

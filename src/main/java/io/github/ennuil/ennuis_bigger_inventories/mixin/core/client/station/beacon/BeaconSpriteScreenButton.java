@@ -24,7 +24,7 @@ public abstract class BeaconSpriteScreenButton implements SplitTextureBeaconScre
 		method = "renderIcon",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
 		)
 	)
 	private ResourceLocation modifyPatternTexture(ResourceLocation original) {
