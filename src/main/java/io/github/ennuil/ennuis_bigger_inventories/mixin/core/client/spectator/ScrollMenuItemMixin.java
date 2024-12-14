@@ -1,15 +1,16 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.spectator;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/client/gui/spectator/SpectatorMenu$ScrollMenuItem")
 public abstract class ScrollMenuItemMixin {
 	@Unique private static final ResourceLocation EBI_SCROLL_LEFT_SPRITE = ModUtils.id("spectator/scroll_left");

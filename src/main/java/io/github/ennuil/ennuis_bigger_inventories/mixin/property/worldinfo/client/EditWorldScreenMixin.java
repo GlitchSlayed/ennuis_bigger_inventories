@@ -3,7 +3,15 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.property.worldinfo.clie
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.LevelSummaryExtensions;
 import io.github.ennuil.ennuis_bigger_inventories.impl.screen.ConvertToTenfoursizedWorldScreen;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.screens.BackupConfirmScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.worldselection.EditWorldScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.storage.LevelStorageSource;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -13,15 +21,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.layouts.LinearLayout;
-import net.minecraft.client.gui.screens.BackupConfirmScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.worldselection.EditWorldScreen;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.storage.LevelStorageSource;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(EditWorldScreen.class)
 public abstract class EditWorldScreenMixin extends Screen {
 	@Shadow

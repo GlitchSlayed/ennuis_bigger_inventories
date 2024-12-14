@@ -2,12 +2,13 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.property.client;
 
 import io.github.ennuil.ennuis_bigger_inventories.api.EnnyMultiPlayerGameMode;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.MultiPlayerGameModeExtensions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(MultiPlayerGameMode.class)
 public abstract class MultiPlayerGameModeMixin implements EnnyMultiPlayerGameMode, MultiPlayerGameModeExtensions {
 	@Unique

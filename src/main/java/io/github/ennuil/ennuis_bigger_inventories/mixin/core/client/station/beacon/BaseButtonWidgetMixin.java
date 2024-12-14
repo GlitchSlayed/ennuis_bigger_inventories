@@ -4,20 +4,21 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.function.Function;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconScreenButton")
 public abstract class BaseButtonWidgetMixin extends AbstractButton {
 	@Unique private static final ResourceLocation EBI_BUTTON_DISABLED_SPRITE = ModUtils.id("container/beacon/button_disabled");

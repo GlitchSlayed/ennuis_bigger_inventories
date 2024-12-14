@@ -1,17 +1,18 @@
 package io.github.ennuil.ennuis_bigger_inventories;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EnnyPackets;
-import io.github.ennuil.ennuis_bigger_inventories.impl.screen.TenfoursizedContainerScreen;
 import io.github.ennuil.ennuis_bigger_inventories.impl.screen.ModMenuTypes;
+import io.github.ennuil.ennuis_bigger_inventories.impl.screen.TenfoursizedContainerScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.impl.client.itemgroup.FabricCreativeGuiComponents;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 public class ClientModInit implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {

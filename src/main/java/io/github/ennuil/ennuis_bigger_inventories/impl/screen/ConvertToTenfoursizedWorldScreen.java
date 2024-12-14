@@ -3,6 +3,8 @@ package io.github.ennuil.ennuis_bigger_inventories.impl.screen;
 import com.mojang.logging.LogUtils;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.LevelStorageAccessExtensions;
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -13,10 +15,9 @@ import net.minecraft.util.CommonColors;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.slf4j.Logger;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 public class ConvertToTenfoursizedWorldScreen extends Screen {
 	private static final Logger LOGGER = LogUtils.getLogger();
 

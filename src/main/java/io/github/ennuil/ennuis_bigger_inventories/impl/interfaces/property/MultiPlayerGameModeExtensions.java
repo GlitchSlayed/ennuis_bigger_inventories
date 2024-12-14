@@ -1,8 +1,9 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 public interface MultiPlayerGameModeExtensions {
 	void ebi$setTenfoursized(boolean tenfoursized);
 }

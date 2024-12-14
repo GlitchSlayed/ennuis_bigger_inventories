@@ -1,13 +1,14 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.property.worldinfo.client;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.WorldCreationUiStateExtensions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationUiState;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(WorldCreationUiState.class)
 public abstract class WorldCreationUiStateMixin implements WorldCreationUiStateExtensions {
 	@Shadow

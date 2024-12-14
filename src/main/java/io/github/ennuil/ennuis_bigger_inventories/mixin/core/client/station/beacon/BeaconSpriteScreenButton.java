@@ -1,15 +1,16 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station.beacon;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.SplitTextureBeaconScreenButton;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconSpriteScreenButton")
 public abstract class BeaconSpriteScreenButton implements SplitTextureBeaconScreenButton {
 	@Unique

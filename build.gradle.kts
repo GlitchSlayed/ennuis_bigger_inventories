@@ -1,6 +1,6 @@
 plugins {
 	id("maven-publish")
-	alias(libs.plugins.quilt.loom)
+	alias(libs.plugins.fabric.loom)
 }
 
 project.version = "0.3.0-beta.1+1.21.3"
@@ -18,12 +18,18 @@ loom {
 	}
 }
 
-repositories {}
+repositories {
+	maven("https://maven.parchmentmc.org")
+}
 
 dependencies {
 	minecraft(libs.minecraft)
-	mappings(loom.officialMojangMappings())
-	modImplementation(libs.quilt.loader)
+
+	mappings(loom.layered {
+		officialMojangMappings()
+		parchment(libs.parchment)
+	})
+	modImplementation(libs.fabric.loader)
 
 	modImplementation(libs.fabric.api)
 }

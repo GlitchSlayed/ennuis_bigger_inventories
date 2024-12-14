@@ -2,11 +2,12 @@ package io.github.ennuil.ennuis_bigger_inventories.impl.networking.payloads;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EnnyPackets;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 public record ClientboundSyncTenfoursizedPacket(boolean tenfoursized) implements CustomPacketPayload {
 	public static final StreamCodec<FriendlyByteBuf, ClientboundSyncTenfoursizedPacket> CODEC = CustomPacketPayload.codec(ClientboundSyncTenfoursizedPacket::write, ClientboundSyncTenfoursizedPacket::new);
@@ -25,7 +26,7 @@ public record ClientboundSyncTenfoursizedPacket(boolean tenfoursized) implements
 		byteBuf.writeBoolean(this.tenfoursized);
 	}
 
-	@ClientOnly
+	@Environment(EnvType.CLIENT)
 	public static void handle(ClientboundSyncTenfoursizedPacket payload, ClientPlayNetworking.Context context) {
 		EnnyPackets.tenfoursized = payload.tenfoursized();
 	}

@@ -1,13 +1,14 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.property.client;
 
 import io.github.ennuil.ennuis_bigger_inventories.api.EnnyLevel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@ClientOnly
+@Environment(EnvType.CLIENT)
 @Mixin(Level.class)
 public abstract class LevelMixin implements EnnyLevel {
 	@Shadow
