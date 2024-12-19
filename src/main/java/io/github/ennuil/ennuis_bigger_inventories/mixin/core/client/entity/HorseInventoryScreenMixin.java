@@ -61,54 +61,6 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
 		}
 	}
 
-	@WrapOperation(
-		method = "renderBg",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
-			ordinal = 0
-		)
-	)
-	private void modifySaddleSlotTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(function, EBI_SADDLE_SLOT_SPRITE, i + 14, y, width, height);
-		} else {
-			original.call(graphics, function, texture, x, y, width, height);
-		}
-	}
-
-	@WrapOperation(
-		method = "renderBg",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
-			ordinal = 1
-		)
-	)
-	private void modifyLlamaArmorSlotTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(function, EBI_LLAMA_ARMOR_SLOT_SPRITE, i + 14, y, width, height);
-		} else {
-			original.call(graphics, function, texture, x, y, width, height);
-		}
-	}
-
-	@WrapOperation(
-		method = "renderBg",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
-			ordinal = 2
-		)
-	)
-	private void modifyArmorSlotTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
-		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(function, EBI_ARMOR_SLOT_SPRITE, i + 14, y, width, height);
-		} else {
-			original.call(graphics, function, texture, x, y, width, height);
-		}
-	}
-
 	@ModifyArg(
 		method = "renderBg",
 		at = @At(

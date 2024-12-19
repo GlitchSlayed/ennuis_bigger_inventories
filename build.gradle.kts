@@ -3,20 +3,8 @@ plugins {
 	alias(libs.plugins.fabric.loom)
 }
 
-project.version = "0.3.0-beta.1+1.21.3"
+project.version = "0.4.0-beta.1+1.21.4"
 project.group = "io.github.ennuil"
-
-loom {
-	mods {
-		register("ennuis_bigger_inventories") {
-			sourceSet(sourceSets["main"])
-		}
-	}
-
-	mixin {
-		useLegacyMixinAp = false
-	}
-}
 
 repositories {
 	maven("https://maven.parchmentmc.org")
@@ -32,6 +20,37 @@ dependencies {
 	modImplementation(libs.fabric.loader)
 
 	modImplementation(libs.fabric.api)
+}
+
+sourceSets {
+	register("testmod") {
+		compileClasspath += sourceSets.main.get().compileClasspath
+		runtimeClasspath += sourceSets.main.get().runtimeClasspath
+	}
+}
+
+loom {
+	mods {
+		register("ennuis_bigger_inventories") {
+			sourceSet("main")
+		}
+
+		register("ennuis_bigger_inventories_testmod") {
+			sourceSet("testmod")
+		}
+	}
+
+	mixin {
+		useLegacyMixinAp = false
+	}
+
+	runs {
+		register("testmodClient") {
+			client()
+			configName = "Testmod Client"
+			source("testmod")
+		}
+	}
 }
 
 tasks.named<ProcessResources>("processResources").configure {

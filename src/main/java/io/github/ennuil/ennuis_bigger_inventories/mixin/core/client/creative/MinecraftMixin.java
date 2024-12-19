@@ -49,9 +49,4 @@ public abstract class MinecraftMixin {
 			);
 		}
 	}
-
-	@ModifyExpressionValue(method = "pickBlock", at = @At(value = "CONSTANT", args = "intValue=36"))
-	private int modify36(int original) {
-		return this.gameMode.isTenfoursized() ? 9 + 10 * 3 : original;
-	}
 }

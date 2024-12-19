@@ -30,9 +30,17 @@ public abstract class InventoryMixin implements Container, EnnyInventory {
 	@Final
 	public Player player;
 
+	@Shadow
+	public int selected;
+
 	@Override
 	public boolean isTenfoursized() {
 		return this.player.level().inferTenfoursized();
+	}
+
+	@ModifyExpressionValue(method = "getSelected", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;isHotbarSlot(I)Z"))
+	private boolean modifyIsHotbarSlotOnGetSelected(boolean original) {
+		return this.isTenfoursized() ? this.selected >= 0 && this.selected < 10 : original;
 	}
 
 	// Static method, do not use!

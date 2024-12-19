@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -110,6 +111,11 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	@ModifyExpressionValue(method = "slotClicked", at = @At(value = "CONSTANT", args = "intValue=9"))
 	private int modifyNinesOnMouseClick(int original) {
 		return this.minecraft.gameMode.isTenfoursized() ? 10 : original;
+	}
+
+	@ModifyExpressionValue(method = "slotClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;isHotbarSlot(I)Z"))
+	private boolean modifyIsHotbarSlot(boolean original, @Local(argsOnly = true) Slot slot) {
+		return this.minecraft.gameMode.isTenfoursized() ? slot.getContainerSlot() >= 0 && slot.getContainerSlot() < 10 : original;
 	}
 
 	@ModifyExpressionValue(
