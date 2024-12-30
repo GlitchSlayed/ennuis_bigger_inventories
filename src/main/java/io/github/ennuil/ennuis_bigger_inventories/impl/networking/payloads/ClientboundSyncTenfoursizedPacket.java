@@ -1,7 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl.networking.payloads;
 
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
-import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EnnyPackets;
+import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EBIPackets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -28,6 +28,6 @@ public record ClientboundSyncTenfoursizedPacket(boolean tenfoursized) implements
 
 	@Environment(EnvType.CLIENT)
 	public static void handle(ClientboundSyncTenfoursizedPacket payload, ClientPlayNetworking.Context context) {
-		EnnyPackets.tenfoursized = payload.tenfoursized();
+		EBIPackets.tenfoursized = payload.tenfoursized();
 	}
 }

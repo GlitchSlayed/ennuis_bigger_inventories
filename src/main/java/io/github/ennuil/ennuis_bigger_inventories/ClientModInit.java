@@ -1,6 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories;
 
-import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EnnyPackets;
+import io.github.ennuil.ennuis_bigger_inventories.impl.networking.EBIPackets;
 import io.github.ennuil.ennuis_bigger_inventories.impl.screen.ModMenuTypes;
 import io.github.ennuil.ennuis_bigger_inventories.impl.screen.TenfoursizedContainerScreen;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,7 +16,7 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 public class ClientModInit implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		EnnyPackets.registerClient();
+		EBIPackets.registerClient();
 
 		MenuScreens.register(ModMenuTypes.GENERIC_10X1, TenfoursizedContainerScreen::new);
 		MenuScreens.register(ModMenuTypes.GENERIC_10X2, TenfoursizedContainerScreen::new);
@@ -25,7 +25,7 @@ public class ClientModInit implements ClientModInitializer {
 		MenuScreens.register(ModMenuTypes.GENERIC_10X5, TenfoursizedContainerScreen::new);
 		MenuScreens.register(ModMenuTypes.GENERIC_10X6, TenfoursizedContainerScreen::new);
 
-		ClientPlayConnectionEvents.DISCONNECT.register((menu, client) -> EnnyPackets.tenfoursized = null);
+		ClientPlayConnectionEvents.DISCONNECT.register((menu, client) -> EBIPackets.tenfoursized = null);
 
 		ScreenEvents.AFTER_INIT.register(((client, screen, scaledWidth, scaledHeight) -> {
 			if (screen instanceof CreativeModeInventoryScreen && client.gameMode.isTenfoursized()) {

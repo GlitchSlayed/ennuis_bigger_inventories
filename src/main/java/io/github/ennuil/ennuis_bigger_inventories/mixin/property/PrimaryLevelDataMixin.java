@@ -3,7 +3,7 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.property;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.serialization.Dynamic;
 import com.mojang.serialization.Lifecycle;
-import io.github.ennuil.ennuis_bigger_inventories.api.EnnyServerLevelData;
+import io.github.ennuil.ennuis_bigger_inventories.api.EBIServerLevelData;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.ServerLevelDataExtensions;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.LevelSettingsExtensions;
 import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.property.PrimaryLevelDataExtensions;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PrimaryLevelData.class)
-public abstract class PrimaryLevelDataMixin implements EnnyServerLevelData, ServerLevelDataExtensions, PrimaryLevelDataExtensions {
+public abstract class PrimaryLevelDataMixin implements EBIServerLevelData, ServerLevelDataExtensions, PrimaryLevelDataExtensions {
 	@Shadow
 	private LevelSettings settings;
 

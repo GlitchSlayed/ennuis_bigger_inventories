@@ -6,7 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
-public class EnnyPackets {
+public class EBIPackets {
 	public static Boolean tenfoursized = null;
 
 	public static void register() {

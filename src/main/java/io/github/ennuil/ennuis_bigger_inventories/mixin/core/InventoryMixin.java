@@ -2,7 +2,7 @@ package io.github.ennuil.ennuis_bigger_inventories.mixin.core;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import io.github.ennuil.ennuis_bigger_inventories.api.EnnyInventory;
+import io.github.ennuil.ennuis_bigger_inventories.api.EBIInventory;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(Inventory.class)
-public abstract class InventoryMixin implements Container, EnnyInventory {
+public abstract class InventoryMixin implements Container, EBIInventory {
 	@Shadow
 	@Final
 	@Mutable

@@ -22,15 +22,15 @@
 	"depends": {
 		"fabricloader": ">=0.16.9",
 		"minecraft": "=1.21.4",
-		"fabric-api": ">=0.112.0"
+		"fabric-api": ">=0.113.0"
 	},
 	"custom": {
 		"loom:injected_interfaces": {
-			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyMultiPlayerGameMode"],
-			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyInventory"],
-			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyLevel"],
-			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerLevel"],
-			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EnnyServerLevelData"]
+			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIMultiPlayerGameMode"],
+			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIInventory"],
+			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EBILevel"],
+			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevel"],
+			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevelData"]
 		}
 	}
 }
