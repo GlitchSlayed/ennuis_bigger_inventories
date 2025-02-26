@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(targets = "net/fabricmc/fabric/impl/transfer/item/PlayerInventoryStorageImpl")
 public abstract class PlayerInventoryStorageImplMixin {
-	@ModifyArg(method = "offer", at = @At(value = "INVOKE", target = "Ljava/util/List;subList(II)Ljava/util/List;"), remap = false)
+	@ModifyArg(method = "offer", at = @At(value = "INVOKE", target = "Ljava/util/List;subList(II)Ljava/util/List;"), index = 1, remap = false)
 	private int modifyMainSize(int original) {
 		return HackjobKit.isTenfoursized() ? 40 : original;
 	}
