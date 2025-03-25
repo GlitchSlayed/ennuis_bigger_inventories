@@ -31,9 +31,8 @@ public class ClientModInit implements ClientModInitializer {
 			if (screen instanceof CreativeModeInventoryScreen && client.gameMode.isTenfoursized()) {
 				for (var element : screen.children()) {
 					if (element instanceof FabricCreativeGuiComponents.ItemGroupButtonWidget button) {
-						// 18 is the technical match; however, the button sucks on vanilla FAPI, and EBI is pretty opinionated
-						// Let's see if this convinces them to improve their own button :p
-						button.setX(button.getX() + 18 - 1);
+						// We don't want to mixin a mixin using a hacky library, so use the Fabric Screen API instead!
+						button.setX(button.getX() + 18);
 					}
 				}
 			}
