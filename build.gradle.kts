@@ -3,7 +3,7 @@ plugins {
 	alias(libs.plugins.fabric.loom)
 }
 
-project.version = "0.4.0-beta.1+1.21.4"
+project.version = "0.4.0-beta.2+1.21.4"
 project.group = "io.github.ennuil"
 
 repositories {
