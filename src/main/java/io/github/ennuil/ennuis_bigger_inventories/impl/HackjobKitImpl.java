@@ -1,14 +1,15 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl;
 
 import io.github.ennuil.ennuis_bigger_inventories.mixin.core.SlotRangesAccessor;
-import java.util.ArrayList;
 import net.minecraft.Util;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.inventory.SlotRange;
 
+import java.util.ArrayList;
+
 public class HackjobKitImpl {
 	public static class TenfoursizedProperty {
-		static boolean instance;
+		private static boolean instance;
 
 		public static boolean getInstance() {
 			return instance;
@@ -22,6 +23,7 @@ public class HackjobKitImpl {
 			SlotRangesAccessor.setNameLookup(StringRepresentable.createNameLookup(
 				SlotRangesAccessor.getSlots().toArray(new SlotRange[0]), name -> name
 			));
+			// TODO - Hackingly modify Inventory.EQUIPMENT_SLOT_MAPPING if anyone else uses it
 		}
 	}
 }

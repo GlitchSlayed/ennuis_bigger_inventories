@@ -20,9 +20,9 @@
 	},
 	"mixins": ["ennuis_bigger_inventories.mixins.json"],
 	"depends": {
-		"fabricloader": ">=0.16.9",
-		"minecraft": "=1.21.4",
-		"fabric-api": ">=0.113.0"
+		"fabricloader": ">=0.16.10",
+		"minecraft": "=1.21.5",
+		"fabric-api": ">=0.119.5"
 	},
 	"custom": {
 		"loom:injected_interfaces": {
