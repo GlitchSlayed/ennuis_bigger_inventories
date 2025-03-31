@@ -1,9 +1,12 @@
+import net.fabricmc.loom.task.RemapJarTask
+
 plugins {
 	id("maven-publish")
 	alias(libs.plugins.fabric.loom)
+	alias(libs.plugins.mod.publish.plugin)
 }
 
-project.version = "0.4.0-beta.2+1.21.4"
+project.version = "0.5.0-beta.1+1.21.5"
 project.group = "io.github.ennuil"
 
 repositories {
@@ -65,6 +68,42 @@ tasks.named<Jar>("jar").configure {
 
 	from("LICENSE.md") {
 		rename { "LICENSE_${name}.md" }
+	}
+}
+
+publishMods {
+	file = tasks.named<RemapJarTask>("remapJar").get().archiveFile
+	modLoaders.addAll("fabric", "quilt")
+	type = BETA
+	// TODO - Handle changelogs
+	changelog = "Missing Changelog"
+
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_API_TOKEN")
+		projectId = "3vWSQmpn"
+		minecraftVersions.add("1.21.5")
+
+		requires("P7dR8mSH") // Fabric API
+		//optional("jBNms9o3") // Ennui's Bigger Gambiarra
+	}
+
+	curseforge {
+		accessToken = providers.environmentVariable("CURSEFORGE_API_TOKEN")
+		projectId = "996018"
+		minecraftVersions.add("1.21.5")
+
+		clientRequired = true
+		serverRequired = true
+
+		requires("306612") // Fabric API
+		//optional("996023") // Ennui's Bigger Gambiarra
+	}
+
+	github {
+		accessToken = providers.environmentVariable("GH_API_TOKEN")
+		repository = "EnnuiL/ennuis-bigger-inventories"
+		commitish = "1.21.5"
+		tagName = "v${project.version}"
 	}
 }
 
