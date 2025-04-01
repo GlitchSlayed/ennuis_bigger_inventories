@@ -95,7 +95,7 @@ publishMods {
 		clientRequired = true
 		serverRequired = true
 
-		requires("306612") // Fabric API
+		requires("fabric-api") // Fabric API
 		//optional("996023") // Ennui's Bigger Gambiarra
 	}
 
