@@ -1,5 +1,5 @@
-name: Build Mod
-on: push
+name: Publish Mod Release
+on: workflow_dispatch
 
 jobs:
   build:
@@ -15,8 +15,9 @@ jobs:
           java-version: 21
       - name: Build with Gradle
         run: gradle build
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: build/libs
+      - name: Publish Release
+        run: gradle build
+        env:
+          CURSEFORGE_API_TOKEN = ${{ secrets.CURSEFORGE_API_TOKEN }}
+          MODRINTH_API_TOKEN = ${{ secrets.CURSEFORGE_API_TOKEN }}
+          GH_API_TOKEN = ${{ github.token }}
