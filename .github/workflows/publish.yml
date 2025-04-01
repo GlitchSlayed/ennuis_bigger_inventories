@@ -16,7 +16,7 @@ jobs:
       - name: Build with Gradle
         run: gradle build
       - name: Publish Release
-        run: gradle build
+        run: gradle publishMods
         env:
           CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
           MODRINTH_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
