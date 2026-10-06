@@ -41,6 +41,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ennuis-bigger-inventories-${{ github.ref_name }}-${{ github.sha }}
+          name: ennuis-bigger-inventories-${{ github.sha }}
           path: build/libs/*.jar
           retention-days: 7
