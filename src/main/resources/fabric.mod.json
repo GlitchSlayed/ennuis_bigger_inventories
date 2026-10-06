@@ -20,17 +20,17 @@
 	},
 	"mixins": ["ennuis_bigger_inventories.mixins.json"],
 	"depends": {
-		"fabricloader": ">=0.16.10",
-		"minecraft": "=1.21.5",
-		"fabric-api": ">=0.119.5"
+		"fabricloader": ">=0.19.5",
+		"minecraft": "=26.3",
+		"fabric-api": ">=0.161.0"
 	},
 	"custom": {
 		"loom:injected_interfaces": {
-			"net/minecraft/class_636": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIMultiPlayerGameMode"],
-			"net/minecraft/class_1661": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIInventory"],
-			"net/minecraft/class_1937": ["io/github/ennuil/ennuis_bigger_inventories/api/EBILevel"],
-			"net/minecraft/class_3218": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevel"],
-			"net/minecraft/class_5268": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevelData"]
+			"net/minecraft/client/multiplayer/MultiPlayerGameMode": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIMultiPlayerGameMode"],
+			"net/minecraft/world/entity/player/Inventory": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIInventory"],
+			"net/minecraft/world/level/Level": ["io/github/ennuil/ennuis_bigger_inventories/api/EBILevel"],
+			"net/minecraft/server/level/ServerLevel": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevel"],
+			"net/minecraft/world/level/storage/ServerLevelData": ["io/github/ennuil/ennuis_bigger_inventories/api/EBIServerLevelData"]
 		}
 	}
 }

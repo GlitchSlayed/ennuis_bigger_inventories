@@ -1,14 +1,16 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
+import net.minecraft.client.renderer.RenderPipelines;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.CrafterScreen;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,10 +24,10 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 @Mixin(CrafterScreen.class)
 public abstract class CrafterScreenMixin {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/crafter.png");
-	@Unique private static final ResourceLocation EBI_DISABLED_SLOT_SPRITE = ModUtils.id("container/crafter/disabled_slot");
-	@Unique private static final ResourceLocation EBI_POWERED_ARROW_SPRITE = ModUtils.id("container/crafter/powered_redstone");
-	@Unique private static final ResourceLocation EBI_UNPOWERED_ARROW_SPRITE = ModUtils.id("container/crafter/unpowered_redstone");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/crafter.png");
+	@Unique private static final Identifier EBI_DISABLED_SLOT_SPRITE = ModUtils.id("container/crafter/disabled_slot");
+	@Unique private static final Identifier EBI_POWERED_ARROW_SPRITE = ModUtils.id("container/crafter/powered_redstone");
+	@Unique private static final Identifier EBI_UNPOWERED_ARROW_SPRITE = ModUtils.id("container/crafter/unpowered_redstone");
 
 	@Shadow
 	@Final
@@ -33,29 +35,29 @@ public abstract class CrafterScreenMixin {
 
 	@Shadow
 	@Final
-	private static ResourceLocation POWERED_REDSTONE_LOCATION_SPRITE;
+	private static Identifier POWERED_REDSTONE_LOCATION_SPRITE;
 
-	@ModifyArg(method = "renderBg", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"))
-	private ResourceLocation modifyTexture(ResourceLocation original) {
+	@ModifyArg(method = "extractBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"))
+	private Identifier modifyTexture(Identifier original) {
 		return this.player.getInventory().isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
-	@ModifyArg(method = "renderDisabledSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"))
-	private ResourceLocation modifyDisabledSlot(ResourceLocation original) {
+	@ModifyArg(method = "extractDisabledSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"))
+	private Identifier modifyDisabledSlot(Identifier original) {
 		return this.player.getInventory().isTenfoursized() ? EBI_DISABLED_SLOT_SPRITE : original;
 	}
 
 	@WrapOperation(
-		method = "renderRedstone",
+		method = "extractRedstone",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
 			ordinal = 0
 		)
 	)
-	private void modifyPoweredArrow(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+	private void modifyPoweredArrow(GuiGraphicsExtractor instance, RenderPipeline function, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.player.getInventory().isTenfoursized()) {
-			instance.blitSprite(function, texture == POWERED_REDSTONE_LOCATION_SPRITE ? EBI_POWERED_ARROW_SPRITE : EBI_UNPOWERED_ARROW_SPRITE, x - 2, y, width, height);
+			instance.blitSprite(RenderPipelines.GUI_TEXTURED, texture == POWERED_REDSTONE_LOCATION_SPRITE ? EBI_POWERED_ARROW_SPRITE : EBI_UNPOWERED_ARROW_SPRITE, x - 2, y, width, height);
 		} else {
 			original.call(instance, function, texture, x, y, width, height);
 		}

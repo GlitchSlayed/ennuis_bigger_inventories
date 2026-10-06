@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.impl.client.itemgroup.FabricCreativeGuiComponents;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 
@@ -30,8 +30,7 @@ public class ClientModInit implements ClientModInitializer {
 		ScreenEvents.AFTER_INIT.register(((client, screen, scaledWidth, scaledHeight) -> {
 			if (screen instanceof CreativeModeInventoryScreen && client.gameMode.isTenfoursized()) {
 				for (var element : screen.children()) {
-					if (element instanceof FabricCreativeGuiComponents.ItemGroupButtonWidget button) {
-						// We don't want to mixin a mixin using a hacky library, so use the Fabric Screen API instead!
+					if (element instanceof AbstractWidget button && button.getY() < 20) {
 						button.setX(button.getX() + 18);
 					}
 				}

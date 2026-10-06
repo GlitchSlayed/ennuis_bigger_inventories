@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BarrelBlockEntity1Mixin {
 	@Shadow(remap = false)
 	@Final
-	BarrelBlockEntity field_27208;
+	BarrelBlockEntity this$0;
 
 	@ModifyReturnValue(method = "isOwnContainer", at = @At(value = "RETURN", ordinal = 1))
 	private boolean modifyIsPlayerViewing(boolean original, Player player) {
 		if (!original) {
 			if (player.containerMenu instanceof TenfoursizedContainerMenu menu) {
-				return menu.getContainer() == field_27208;
+				return menu.getContainer() == this$0;
 			}
 		}
 

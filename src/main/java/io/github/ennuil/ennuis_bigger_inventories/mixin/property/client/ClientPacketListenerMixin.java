@@ -8,6 +8,7 @@ import io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.creative.Cre
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.ClientRecipeBook;
+import net.minecraft.client.player.ItemActivation;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
@@ -19,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPacketListener.class)
 public abstract class ClientPacketListenerMixin {
-	@ModifyReceiver(method = "handleLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;createPlayer(Lnet/minecraft/client/multiplayer/ClientLevel;Lnet/minecraft/stats/StatsCounter;Lnet/minecraft/client/ClientRecipeBook;)Lnet/minecraft/client/player/LocalPlayer;"))
-	private MultiPlayerGameMode setInteractionManagerTenfoursized(MultiPlayerGameMode instance, ClientLevel level, StatsCounter statsCounter, ClientRecipeBook recipeBook) {
+	@ModifyReceiver(method = "handleLogin", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;createPlayer(Lnet/minecraft/client/multiplayer/ClientLevel;Lnet/minecraft/stats/StatsCounter;Lnet/minecraft/client/ClientRecipeBook;Lnet/minecraft/client/player/ItemActivation;)Lnet/minecraft/client/player/LocalPlayer;"))
+	private MultiPlayerGameMode setInteractionManagerTenfoursized(MultiPlayerGameMode instance, ClientLevel level, StatsCounter statsCounter, ClientRecipeBook recipeBook, ItemActivation itemActivation) {
 		boolean tenfoursized = EBIPackets.tenfoursized != null ? EBIPackets.tenfoursized : false;
 		EBIPackets.tenfoursized = null;
 

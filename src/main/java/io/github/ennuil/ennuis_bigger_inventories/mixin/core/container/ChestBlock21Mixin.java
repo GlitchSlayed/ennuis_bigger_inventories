@@ -13,12 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(targets = "net/minecraft/world/level/block/ChestBlock$2$1")
 public abstract class ChestBlock21Mixin {
 	@Shadow(remap = false)
-	Container field_17360;
+	Container val$container;
 
 	@ModifyReturnValue(method = "createMenu", at = @At(value = "RETURN", ordinal = 0))
 	private AbstractContainerMenu returnTenfoursizedMenu(AbstractContainerMenu original, int syncId, Inventory inventory) {
 		if (inventory.isTenfoursized()) {
-			return TenfoursizedContainerMenu.sixRows(syncId, inventory, field_17360);
+			return TenfoursizedContainerMenu.sixRows(syncId, inventory, val$container);
 		} else {
 			return original;
 		}

@@ -1,7 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.impl;
 
 import io.github.ennuil.ennuis_bigger_inventories.mixin.core.SlotRangesAccessor;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.inventory.SlotRange;
 
@@ -21,7 +21,7 @@ public class HackjobKitImpl {
 			SlotRangesAccessor.setSlots(Util.make(new ArrayList<>(), SlotRangesAccessor::callMethod_58084));
 			SlotRangesAccessor.setCodec(StringRepresentable.fromValues(SlotRangesAccessor::callMethod_58090));
 			SlotRangesAccessor.setNameLookup(StringRepresentable.createNameLookup(
-				SlotRangesAccessor.getSlots().toArray(new SlotRange[0]), name -> name
+				SlotRangesAccessor.getSlots().toArray(new SlotRange[0]), SlotRange::getSerializedName
 			));
 			// TODO - Hackingly modify Inventory.EQUIPMENT_SLOT_MAPPING if anyone else uses it
 		}

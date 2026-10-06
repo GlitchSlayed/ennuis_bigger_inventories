@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.FurnaceScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.FurnaceMenu;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,12 +20,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(FurnaceScreen.class)
 public abstract class FurnaceScreenMixin implements SplitSpriteFurnaceScreen {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/furnace.png");
-	@Unique private static final ResourceLocation EBI_BURN_PROGRESS_SPRITE = ModUtils.id("container/furnace/burn_progress");
-	@Unique private static final ResourceLocation EBI_LIT_PROGRESS_SPRITE = ModUtils.id("container/furnace/lit_progress");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/furnace.png");
+	@Unique private static final Identifier EBI_BURN_PROGRESS_SPRITE = ModUtils.id("container/furnace/burn_progress");
+	@Unique private static final Identifier EBI_LIT_PROGRESS_SPRITE = ModUtils.id("container/furnace/lit_progress");
 
-	@ModifyExpressionValue(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/FurnaceScreen;TEXTURE:Lnet/minecraft/resources/ResourceLocation;"))
-	private static ResourceLocation modifyTexture(ResourceLocation original, @Local(argsOnly = true) Inventory inventory) {
+	@ModifyExpressionValue(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/FurnaceScreen;TEXTURE:Lnet/minecraft/resources/Identifier;"))
+	private static Identifier modifyTexture(Identifier original, @Local(argsOnly = true) Inventory inventory) {
 		return inventory.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 

@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.station;
 
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.fabricmc.api.EnvType;
@@ -7,7 +8,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CraftingScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.CraftingMenu;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,20 +19,20 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Environment(EnvType.CLIENT)
 @Mixin(CraftingScreen.class)
 public abstract class CraftingScreenMixin extends AbstractContainerScreen<CraftingMenu> {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/crafting_table.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/crafting_table.png");
 
 	private CraftingScreenMixin(CraftingMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
 		)
 	)
-	private ResourceLocation modifyTexture(ResourceLocation original) {
+	private Identifier modifyTexture(Identifier original) {
 		return this.minecraft.gameMode.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 

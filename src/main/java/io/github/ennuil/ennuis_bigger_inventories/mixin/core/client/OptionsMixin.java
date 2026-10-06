@@ -5,7 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Options;
 import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.glfw.GLFW;
+import com.mojang.blaze3d.platform.InputConstants;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -29,7 +29,7 @@ public abstract class OptionsMixin {
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void add10KeyBind(CallbackInfo ci) {
-		var tenBind = new KeyMapping("key.hotbar.10", GLFW.GLFW_KEY_0, KeyMapping.CATEGORY_INVENTORY);
+		var tenBind = new KeyMapping("key.hotbar.10", InputConstants.KEY_0, KeyMapping.Category.INVENTORY);
 
 		this.keyHotbarSlots = ArrayUtils.add(this.keyHotbarSlots, tenBind);
 		this.keyMappings = ArrayUtils.add(this.keyMappings, tenBind);

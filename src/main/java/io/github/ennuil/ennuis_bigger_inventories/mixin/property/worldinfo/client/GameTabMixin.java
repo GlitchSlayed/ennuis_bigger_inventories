@@ -27,7 +27,7 @@ public abstract class GameTabMixin {
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void addTenfoursizeButton(CreateWorldScreen screen, CallbackInfo ci, @Local(ordinal = 0) GridLayout.RowHelper additionHelper) {
 		var tenfoursizeButton = additionHelper.addChild(
-			CycleButton.onOffBuilder()
+			CycleButton.onOffBuilder(((WorldCreationUiStateExtensions) screen.getUiState()).ebi$isTenfoursized())
 				.withTooltip(bool -> Tooltip.create(EXPAND_INVENTORIES_INFO))
 				.create(0, 0, 210, 20, EXPAND_INVENTORIES, (button, bool) -> ((WorldCreationUiStateExtensions) screen.getUiState()).ebi$setTenfoursized(bool))
 		);

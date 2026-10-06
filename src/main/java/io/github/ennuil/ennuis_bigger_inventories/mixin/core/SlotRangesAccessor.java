@@ -43,12 +43,12 @@ public interface SlotRangesAccessor {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 
-	@Invoker(remap = false)
+	@Invoker(value = "lambda$static$0", remap = false)
 	static void callMethod_58084(ArrayList<?> list) {
 		throw new IllegalStateException("Mixin injection failed");
 	}
 
-	@Invoker(remap = false)
+	@Invoker(value = "lambda$static$2", remap = false)
 	static SlotRange[] callMethod_58090() {
 		throw new IllegalStateException("Mixin injection failed");
 	}

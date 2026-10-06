@@ -6,7 +6,7 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
@@ -28,8 +28,8 @@ public class ConvertToTenfoursizedWorldScreen extends Screen {
 
 	@Nullable
 	public static ConvertToTenfoursizedWorldScreen create(Minecraft client, BooleanConsumer callback, LevelStorageSource.LevelStorageAccess levelStorageAccess) {
-		try (var worldStem = client.createWorldOpenFlows().loadWorldStem(levelStorageAccess.getDataTag(), false, ServerPacksSource.createPackRepository(levelStorageAccess))) {
-			var worldData = worldStem.worldData();
+		try (var worldStem = client.createWorldOpenFlows().loadWorldStem(levelStorageAccess, levelStorageAccess.getUnfixedDataTagWithFallback(), false, ServerPacksSource.createPackRepository(levelStorageAccess))) {
+			var worldData = worldStem.worldDataAndGenSettings().data();
 			var frozen = worldStem.registries().compositeAccess();
 
 			return new ConvertToTenfoursizedWorldScreen(callback, frozen, worldData, levelStorageAccess);
@@ -54,10 +54,9 @@ public class ConvertToTenfoursizedWorldScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-		this.renderBackground(graphics, mouseX, mouseY, delta);
-		graphics.drawCenteredString(this.font, this.title, this.width / 2, this.height / 2, CommonColors.WHITE);
-		super.render(graphics, mouseX, mouseY, delta);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
+		graphics.centeredText(this.font, this.title, this.width / 2, this.height / 2, CommonColors.WHITE);
 	}
 
 	@Override

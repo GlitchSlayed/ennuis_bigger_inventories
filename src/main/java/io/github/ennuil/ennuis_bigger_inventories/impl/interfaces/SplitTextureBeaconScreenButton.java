@@ -2,9 +2,9 @@ package io.github.ennuil.ennuis_bigger_inventories.impl.interfaces;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @Environment(EnvType.CLIENT)
 public interface SplitTextureBeaconScreenButton {
-	void ebi$setIconTexture(ResourceLocation textureId);
+	void ebi$setIconTexture(Identifier textureId);
 }

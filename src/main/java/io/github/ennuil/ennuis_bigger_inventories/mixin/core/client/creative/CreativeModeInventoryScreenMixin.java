@@ -1,5 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.creative;
 
+import net.minecraft.client.renderer.RenderPipelines;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -9,15 +11,16 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -37,14 +40,14 @@ import java.util.function.Function;
 @Environment(EnvType.CLIENT)
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreenMixin extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> {
-	@Unique private static final ResourceLocation EBI_SCROLLER_SPRITE = ModUtils.id("container/creative_inventory/scroller");
-	@Unique private static final ResourceLocation EBI_SCROLLER_DISABLED_SPRITE = ModUtils.id("container/creative_inventory/scroller_disabled");
+	@Unique private static final Identifier EBI_SCROLLER_SPRITE = ModUtils.id("container/creative_inventory/scroller");
+	@Unique private static final Identifier EBI_SCROLLER_DISABLED_SPRITE = ModUtils.id("container/creative_inventory/scroller_disabled");
 
 	@Unique
 	private boolean shiftSavedToolbars = false;
 
 	@Unique
-	private static final ResourceLocation[] EBI_SELECTED_TOP_TABS = {
+	private static final Identifier[] EBI_SELECTED_TOP_TABS = {
 		ModUtils.id("container/creative_inventory/tab_top_selected_1"),
 		ModUtils.id("container/creative_inventory/tab_top_selected_2"),
 		ModUtils.id("container/creative_inventory/tab_top_selected_3"),
@@ -55,7 +58,7 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	};
 
 	@Unique
-	private static final ResourceLocation[] EBI_UNSELECTED_TOP_TABS = {
+	private static final Identifier[] EBI_UNSELECTED_TOP_TABS = {
 		ModUtils.id("container/creative_inventory/tab_top_unselected_1"),
 		ModUtils.id("container/creative_inventory/tab_top_unselected_2"),
 		ModUtils.id("container/creative_inventory/tab_top_unselected_3"),
@@ -66,7 +69,7 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	};
 
 	@Unique
-	private static final ResourceLocation[] EBI_SELECTED_BOTTOM_TABS = {
+	private static final Identifier[] EBI_SELECTED_BOTTOM_TABS = {
 		ModUtils.id("container/creative_inventory/tab_bottom_selected_1"),
 		ModUtils.id("container/creative_inventory/tab_bottom_selected_2"),
 		ModUtils.id("container/creative_inventory/tab_bottom_selected_3"),
@@ -77,7 +80,7 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	};
 
 	@Unique
-	private static final ResourceLocation[] EBI_UNSELECTED_BOTTOM_TABS = {
+	private static final Identifier[] EBI_UNSELECTED_BOTTOM_TABS = {
 		ModUtils.id("container/creative_inventory/tab_bottom_unselected_1"),
 		ModUtils.id("container/creative_inventory/tab_bottom_unselected_2"),
 		ModUtils.id("container/creative_inventory/tab_bottom_unselected_3"),
@@ -104,7 +107,7 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	}
 
 	@ModifyExpressionValue(method = "<init>", at = @At(value = "CONSTANT", args = "intValue=195"))
-	private int modifyBackgroundWidth(int original, LocalPlayer player) {
+	private static int modifyBackgroundWidth(int original, @Local(argsOnly = true) LocalPlayer player) {
 		return player.getInventory().isTenfoursized() ? 213 : original;
 	}
 
@@ -243,59 +246,59 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 		return this.minecraft.gameMode.isTenfoursized() ? 193 : original;
 	}
 
-	@ModifyExpressionValue(method = "renderBg", at = @At(value = "CONSTANT", args = "intValue=73"))
+	@ModifyExpressionValue(method = "extractBackground", at = @At(value = "CONSTANT", args = "intValue=73"))
 	private int modifyPlayerX(int original) {
 		return this.minecraft.gameMode.isTenfoursized() ? 91 : original;
 	}
 
-	@ModifyExpressionValue(method = "renderBg", at = @At(value = "CONSTANT", args = "intValue=105"))
+	@ModifyExpressionValue(method = "extractBackground", at = @At(value = "CONSTANT", args = "intValue=105"))
 	private int modifyPlayerX2(int original) {
 		return this.minecraft.gameMode.isTenfoursized() ? 123 : original;
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V",
 			ordinal = 0
 		)
 	)
-	private ResourceLocation modifyTexture(ResourceLocation original) {
+	private Identifier modifyTexture(Identifier original) {
 		return this.minecraft.gameMode.isTenfoursized()
 			? ModUtils.id(original.getPath())
 			: original;
 	}
 
 	@WrapOperation(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
 		)
 	)
-	private void modifyScrollerTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+	private void modifyScrollerTexture(GuiGraphicsExtractor graphics, RenderPipeline function, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			var scrollerTexture = this.canScroll() ? EBI_SCROLLER_SPRITE : EBI_SCROLLER_DISABLED_SPRITE;
-			graphics.blitSprite(function, scrollerTexture, x + 18, y, width, height);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, scrollerTexture, x + 18, y, width, height);
 		} else {
 			original.call(graphics, function, texture, x, y, width, height);
 		}
 	}
 
 	@WrapOperation(
-		method = "renderTabButton",
+		method = "extractTabButton",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V"
 		)
 	)
-	private void modifyTabTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
+	private void modifyTabTexture(GuiGraphicsExtractor graphics, RenderPipeline function, Identifier texture, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 0) boolean bl, @Local(ordinal = 1) boolean bl2, @Local(ordinal = 0) int i) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			var tabTextures = bl2
 				? (bl ? EBI_SELECTED_TOP_TABS : EBI_UNSELECTED_TOP_TABS)
 				: (bl ? EBI_SELECTED_BOTTOM_TABS : EBI_UNSELECTED_BOTTOM_TABS);
-			graphics.blitSprite(function, tabTextures[Mth.clamp(i, 0, tabTextures.length)], x, y, width, height);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, tabTextures[Mth.clamp(i, 0, tabTextures.length - 1)], x, y, width, height);
 		} else {
 			original.call(graphics, function, texture, x, y, width, height);
 		}
@@ -309,7 +312,7 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 		at = {
 			@At(
 				value = "INVOKE",
-				target = "Lnet/minecraft/class_2371;addAll(Ljava/util/Collection;)Z",
+				target = "Lnet/minecraft/core/NonNullList;addAll(Ljava/util/Collection;)Z",
 				ordinal = 0,
 				remap = false
 			),
@@ -337,9 +340,9 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 
 	// TODO - I feel like these two should make a click sound of some sort
 	@ModifyReturnValue(method = "keyPressed", at = @At(value = "RETURN", ordinal = 1))
-	private boolean make10TenShift(boolean original, int keyCode, int scanCode) {
+	private boolean make10TenShift(boolean original, KeyEvent event) {
 		if (selectedTab.getType() == CreativeModeTab.Type.HOTBAR && !this.minecraft.gameMode.isTenfoursized()) {
-			if (this.minecraft.options.keyHotbarSlots[9].matches(keyCode, scanCode)) {
+			if (this.minecraft.options.keyHotbarSlots[9].matches(event)) {
 				float lastScrollPosition = this.scrollOffs;
 				this.shiftSavedToolbars = !this.shiftSavedToolbars;
 				this.selectTab(selectedTab);
@@ -371,10 +374,10 @@ public abstract class CreativeModeInventoryScreenMixin extends AbstractContainer
 	}
 
 	@ModifyArg(
-		method = "renderLabels",
+		method = "extractLabels",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)I"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;IIIZ)V"
 		)
 	)
 	private Component modifyRenderedLabel(Component original) {

@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 @Environment(EnvType.CLIENT)
 @Mixin(EditWorldScreen.class)
@@ -42,8 +43,8 @@ public abstract class EditWorldScreenMixin extends Screen {
 	private BooleanConsumer callback;
 
 	@Shadow
-	public static boolean makeBackupAndShowToast(LevelStorageSource.LevelStorageAccess storageSession) {
-		return false;
+	public static CompletableFuture<Boolean> makeBackupAndShowToast(LevelStorageSource.LevelStorageAccess storageSession) {
+		return null;
 	}
 
 	@Inject(
@@ -55,15 +56,15 @@ public abstract class EditWorldScreenMixin extends Screen {
 		)
 	)
 	private void addConvertToTenfoursizedButton(CallbackInfo ci) throws IOException {
-		if (!((LevelSummaryExtensions) levelAccess.getSummary(levelAccess.getDataTag())).ebi$isTenfoursized()) {
+		if (!levelAccess.getUnfixedDataTagWithFallback().get("ennuis_bigger_inventories:is_tenfoursized").asBoolean(false)) {
 			this.layout.spacing(3);
 			this.layout.addChild(
-				Button.builder(Component.translatable("selectWorld.ennuis_bigger_inventories.edit.expand_all_inventories"), button -> this.minecraft.setScreen(new BackupConfirmScreen(() -> minecraft.setScreen(this), (backup, eraseCache) -> {
+				Button.builder(Component.translatable("selectWorld.ennuis_bigger_inventories.edit.expand_all_inventories"), button -> this.minecraft.setScreenAndShow(new BackupConfirmScreen(() -> minecraft.setScreenAndShow((EditWorldScreen) (Object) this), (backup, eraseCache) -> {
 						if (backup) {
 							makeBackupAndShowToast(this.levelAccess);
 						}
 
-						this.minecraft.setScreen(ConvertToTenfoursizedWorldScreen.create(this.minecraft, this.callback, this.levelAccess));
+						this.minecraft.setScreenAndShow(ConvertToTenfoursizedWorldScreen.create(this.minecraft, this.callback, this.levelAccess));
 					}, Component.translatable("ennuis_bigger_inventories.expand_all_inventories.confirm.title"), Component.translatable("ennuis_bigger_inventories.expand_all_inventories.confirm.description"), false)))
 					.width(200)
 					.build()
@@ -73,7 +74,7 @@ public abstract class EditWorldScreenMixin extends Screen {
 
 	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/SpacerElement;<init>(II)V"), index = 1)
 	private int modifyHeight(int original) throws IOException {
-		if (!((LevelSummaryExtensions) levelAccess.getSummary(levelAccess.getDataTag())).ebi$isTenfoursized()) {
+		if (!levelAccess.getUnfixedDataTagWithFallback().get("ennuis_bigger_inventories:is_tenfoursized").asBoolean(false)) {
 			return 0;
 		} else {
 			return original;

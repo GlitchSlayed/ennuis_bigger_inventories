@@ -10,7 +10,7 @@ public class EBIPackets {
 	public static Boolean tenfoursized = null;
 
 	public static void register() {
-		PayloadTypeRegistry.playS2C().register(ClientboundSyncTenfoursizedPacket.ID, ClientboundSyncTenfoursizedPacket.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ClientboundSyncTenfoursizedPacket.ID, ClientboundSyncTenfoursizedPacket.CODEC);
 	}
 
 	@Environment(EnvType.CLIENT)

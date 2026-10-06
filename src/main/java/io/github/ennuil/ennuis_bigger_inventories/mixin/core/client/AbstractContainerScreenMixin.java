@@ -1,6 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.Screen;
@@ -9,26 +10,21 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(AbstractContainerScreen.class)
 public abstract class AbstractContainerScreenMixin extends Screen {
-	@Shadow
-	protected int imageWidth;
-
 	private AbstractContainerScreenMixin(Component title) {
 		super(title);
 	}
 
-	@Inject(method = "<init>", at = @At("TAIL"))
-	private void modifyBackgroundWidth(AbstractContainerMenu menu, Inventory inventory, Component title, CallbackInfo ci) {
-		if (inventory.isTenfoursized()) {
-			this.imageWidth = 194;
-		}
+	@ModifyExpressionValue(
+		method = "<init>(Lnet/minecraft/world/inventory/AbstractContainerMenu;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/network/chat/Component;)V",
+		at = @At(value = "CONSTANT", args = "intValue=176")
+	)
+	private static int modifyBackgroundWidth(int original, @Local(argsOnly = true) Inventory inventory) {
+		return inventory.isTenfoursized() ? 194 : original;
 	}
 
 	@ModifyExpressionValue(method = {"checkHotbarMouseClicked", "checkHotbarKeyPressed"}, at = @At(value = "CONSTANT", args = "intValue=9"))

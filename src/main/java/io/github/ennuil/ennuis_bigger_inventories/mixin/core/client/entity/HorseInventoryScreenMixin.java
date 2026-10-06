@@ -1,17 +1,19 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client.entity;
 
+import net.minecraft.client.renderer.RenderPipelines;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.gui.screens.inventory.AbstractMountInventoryScreen;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.HorseInventoryMenu;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,50 +24,50 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-@Mixin(HorseInventoryScreen.class)
+@Mixin(AbstractMountInventoryScreen.class)
 public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<HorseInventoryMenu> {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/horse.png");
-	@Unique private static final ResourceLocation EBI_CHEST_SLOTS_SPRITE = ModUtils.id("container/horse/chest_slots");
-	@Unique private static final ResourceLocation EBI_ARMOR_SLOT_SPRITE = ModUtils.id("container/horse/armor_slot");
-	@Unique private static final ResourceLocation EBI_SADDLE_SLOT_SPRITE = ModUtils.id("container/horse/saddle_slot");
-	@Unique private static final ResourceLocation EBI_LLAMA_ARMOR_SLOT_SPRITE = ModUtils.id("container/horse/llama_armor_slot");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/horse.png");
+	@Unique private static final Identifier EBI_CHEST_SLOTS_SPRITE = ModUtils.id("container/horse/chest_slots");
+	@Unique private static final Identifier EBI_ARMOR_SLOT_SPRITE = ModUtils.id("container/horse/armor_slot");
+	@Unique private static final Identifier EBI_SADDLE_SLOT_SPRITE = ModUtils.id("container/horse/saddle_slot");
+	@Unique private static final Identifier EBI_LLAMA_ARMOR_SLOT_SPRITE = ModUtils.id("container/horse/llama_armor_slot");
 
 	private HorseInventoryScreenMixin(HorseInventoryMenu menu, Inventory inventory, Component title) {
 		super(menu, inventory, title);
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V",
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V",
 			ordinal = 0
 		)
 	)
-	private ResourceLocation modifyTexture(ResourceLocation original) {
+	private Identifier modifyTexture(Identifier original) {
 		return this.minecraft.gameMode.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
 	@WrapOperation(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIIIIIII)V"
 		)
 	)
-	private void modifyChestSlotsTexture(GuiGraphics graphics, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
+	private void modifyChestSlotsTexture(GuiGraphicsExtractor graphics, RenderPipeline function, Identifier texture, int sliceWidth1, int sliceHeight1, int sliceWidth2, int sliceHeight2, int x, int y, int width, int height, Operation<Void> original, @Local(ordinal = 2) int i) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
-			graphics.blitSprite(function, EBI_CHEST_SLOTS_SPRITE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 90, y, width, height);
+			graphics.blitSprite(RenderPipelines.GUI_TEXTURED, EBI_CHEST_SLOTS_SPRITE, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, i + 90, y, width, height);
 		} else {
 			original.call(graphics, function, texture, sliceWidth1, sliceHeight1, sliceWidth2, sliceHeight2, x, y, width, height);
 		}
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventoryFollowsMouse(Lnet/minecraft/client/gui/GuiGraphics;IIIIIFFFLnet/minecraft/world/entity/LivingEntity;)V"
+			target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;extractEntityInInventoryFollowsMouse(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIIIIFFFLnet/minecraft/world/entity/LivingEntity;)V"
 		),
 		index = 1
 	)
@@ -74,10 +76,10 @@ public abstract class HorseInventoryScreenMixin extends AbstractContainerScreen<
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;renderEntityInInventoryFollowsMouse(Lnet/minecraft/client/gui/GuiGraphics;IIIIIFFFLnet/minecraft/world/entity/LivingEntity;)V"
+			target = "Lnet/minecraft/client/gui/screens/inventory/InventoryScreen;extractEntityInInventoryFollowsMouse(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIIIIFFFLnet/minecraft/world/entity/LivingEntity;)V"
 		),
 		index = 3
 	)

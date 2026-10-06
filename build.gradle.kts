@@ -1,27 +1,16 @@
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
 	id("maven-publish")
 	alias(libs.plugins.fabric.loom)
 }
 
-project.version = "0.5.0-beta.1+1.21.5"
+project.version = "0.5.0-beta.1+26.3"
 project.group = "io.github.ennuil"
-
-repositories {
-	maven("https://maven.parchmentmc.org")
-}
 
 dependencies {
 	minecraft(libs.minecraft)
+	implementation(libs.fabric.loader)
 
-	mappings(loom.layered {
-		officialMojangMappings()
-		parchment(libs.parchment)
-	})
-	modImplementation(libs.fabric.loader)
-
-	modImplementation(libs.fabric.api)
+	implementation(libs.fabric.api)
 }
 
 loom {
@@ -46,7 +35,7 @@ tasks.named<ProcessResources>("processResources").configure {
 }
 
 tasks.withType<JavaCompile> {
-	options.release = 21
+	options.release = 25
 }
 
 java {

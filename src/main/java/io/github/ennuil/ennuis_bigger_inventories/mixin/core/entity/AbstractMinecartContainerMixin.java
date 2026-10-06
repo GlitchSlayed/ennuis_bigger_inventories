@@ -1,7 +1,7 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.entity;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.world.entity.vehicle.AbstractMinecartContainer;
+import net.minecraft.world.entity.vehicle.minecart.AbstractMinecartContainer;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

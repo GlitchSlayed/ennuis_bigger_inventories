@@ -8,17 +8,17 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(SlotRanges.class)
 public abstract class SlotRangesMixin {
-	@ModifyExpressionValue(method = "method_58084", at = @At(value = "CONSTANT", args = "intValue=9"))
+	@ModifyExpressionValue(method = "lambda$static$0", at = @At(value = "CONSTANT", args = "intValue=9"))
 	private static int modifyNines(int original) {
 		return HackjobKit.isTenfoursized() ? 10 : original;
 	}
 
-	@ModifyExpressionValue(method = "method_58084", at = @At(value = "CONSTANT", args = "intValue=27"))
+	@ModifyExpressionValue(method = "lambda$static$0", at = @At(value = "CONSTANT", args = "intValue=27"))
 	private static int modify27(int original) {
 		return HackjobKit.isTenfoursized() ? 30 : original;
 	}
 
-	@ModifyExpressionValue(method = "method_58084", at = @At(value = "CONSTANT", args = "intValue=54"))
+	@ModifyExpressionValue(method = "lambda$static$0", at = @At(value = "CONSTANT", args = "intValue=54"))
 	private static int modify54(int original) {
 		return HackjobKit.isTenfoursized() ? 60 : original;
 	}

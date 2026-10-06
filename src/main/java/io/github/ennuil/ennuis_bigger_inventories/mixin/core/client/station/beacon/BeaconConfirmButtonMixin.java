@@ -5,7 +5,7 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.SplitTextureBe
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/BeaconScreen$BeaconConfirmButton")
 public abstract class BeaconConfirmButtonMixin implements SplitTextureBeaconScreenButton {
-	@Unique private static final ResourceLocation EBI_CONFIRM_SPRITE = ModUtils.id("container/beacon/confirm");
+	@Unique private static final Identifier EBI_CONFIRM_SPRITE = ModUtils.id("container/beacon/confirm");
 
 	@Inject(method = "<init>", at = @At("TAIL"))
 	private void initIconTexture(BeaconScreen beaconScreen, int x, int y, CallbackInfo ci) {

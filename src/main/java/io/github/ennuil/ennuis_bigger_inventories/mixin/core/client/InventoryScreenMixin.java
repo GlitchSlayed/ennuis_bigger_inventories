@@ -1,5 +1,6 @@
 package io.github.ennuil.ennuis_bigger_inventories.mixin.core.client;
 
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import io.github.ennuil.ennuis_bigger_inventories.impl.ModUtils;
 import net.fabricmc.api.EnvType;
@@ -8,7 +9,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Environment(EnvType.CLIENT)
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<InventoryMenu> {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/inventory.png");
 
 	private InventoryScreenMixin(InventoryMenu recipeBookMenu, RecipeBookComponent<?> recipeBookComponent, Inventory inventory, Component title) {
 		super(recipeBookMenu, recipeBookComponent, inventory, title);
@@ -41,13 +42,13 @@ public abstract class InventoryScreenMixin extends AbstractRecipeBookScreen<Inve
 	}
 
 	@ModifyArg(
-		method = "renderBg",
+		method = "extractBackground",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
 		)
 	)
-	private ResourceLocation modifyTexture(ResourceLocation original) {
+	private Identifier modifyTexture(Identifier original) {
 		if (this.minecraft.gameMode.isTenfoursized()) {
 			return EBI_TEXTURE;
 		} else {

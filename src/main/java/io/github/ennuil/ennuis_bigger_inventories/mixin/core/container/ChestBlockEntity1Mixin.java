@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class ChestBlockEntity1Mixin {
 	@Shadow(remap = false)
 	@Final
-	ChestBlockEntity field_27211;
+	ChestBlockEntity this$0;
 
 	@ModifyReturnValue(method = "isOwnContainer", at = @At(value = "RETURN", ordinal = 1))
 	private boolean modifyIsPlayerViewing(boolean original, Player player) {
 		if (!original) {
 			if (player.containerMenu instanceof TenfoursizedContainerMenu menu) {
 				var inventory = menu.getContainer();
-				return inventory == field_27211 || inventory instanceof CompoundContainer && ((CompoundContainer) inventory).contains(field_27211);
+				return inventory == this$0 || inventory instanceof CompoundContainer && ((CompoundContainer) inventory).contains(this$0);
 			}
 		}
 

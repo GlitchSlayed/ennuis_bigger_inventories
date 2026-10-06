@@ -15,22 +15,22 @@ public abstract class ServerGamePacketListenerImplMixin {
 
 	@ModifyExpressionValue(method = "handleEditBook", at = @At(value = "CONSTANT", args = "intValue=40"))
 	private int modify40(int original) {
-		return this.player.serverLevel().isTenfoursized() ? 40 + 4 : original;
+		return ((io.github.ennuil.ennuis_bigger_inventories.api.EBIServerLevel) this.player.level()).isTenfoursized() ? 40 + 4 : original;
 	}
 
 	@ModifyExpressionValue(method = "handleSetCarriedItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;getSelectionSize()I"))
 	private int modifyGetSelectionSize(int original) {
-		return this.player.serverLevel().isTenfoursized() ? 10 : original;
+		return ((io.github.ennuil.ennuis_bigger_inventories.api.EBIServerLevel) this.player.level()).isTenfoursized() ? 10 : original;
 	}
 
 	// 45 is 9 * 4 (36) + 9!
 	@ModifyExpressionValue(method = "handleSetCreativeModeSlot", at = @At(value = "CONSTANT", args = "intValue=45"))
 	private int modify45(int original) {
-		return this.player.serverLevel().isTenfoursized() ? 9 + 10 * 4 : original;
+		return ((io.github.ennuil.ennuis_bigger_inventories.api.EBIServerLevel) this.player.level()).isTenfoursized() ? 9 + 10 * 4 : original;
 	}
 
 	@ModifyExpressionValue(method = "tryPickItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Inventory;isHotbarSlot(I)Z"))
 	private boolean modifyIsHotbarSlot(boolean original, @Local int index) {
-		return this.player.serverLevel().isTenfoursized() ? index >= 0 && index < 10 : original;
+		return ((io.github.ennuil.ennuis_bigger_inventories.api.EBIServerLevel) this.player.level()).isTenfoursized() ? index >= 0 && index < 10 : original;
 	}
 }

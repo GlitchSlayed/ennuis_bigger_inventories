@@ -7,7 +7,7 @@ import io.github.ennuil.ennuis_bigger_inventories.impl.interfaces.SplitSpriteFur
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.inventory.BlastFurnaceScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -18,12 +18,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(BlastFurnaceScreen.class)
 public abstract class BlastFurnaceScreenMixin implements SplitSpriteFurnaceScreen {
-	@Unique private static final ResourceLocation EBI_TEXTURE = ModUtils.id("textures/gui/container/blast_furnace.png");
-	@Unique private static final ResourceLocation EBI_BURN_PROGRESS_SPRITE = ModUtils.id("container/blast_furnace/burn_progress");
-	@Unique private static final ResourceLocation EBI_LIT_PROGRESS_SPRITE = ModUtils.id("container/blast_furnace/lit_progress");
+	@Unique private static final Identifier EBI_TEXTURE = ModUtils.id("textures/gui/container/blast_furnace.png");
+	@Unique private static final Identifier EBI_BURN_PROGRESS_SPRITE = ModUtils.id("container/blast_furnace/burn_progress");
+	@Unique private static final Identifier EBI_LIT_PROGRESS_SPRITE = ModUtils.id("container/blast_furnace/lit_progress");
 
-	@ModifyExpressionValue(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/BlastFurnaceScreen;TEXTURE:Lnet/minecraft/resources/ResourceLocation;"))
-	private static ResourceLocation modifyTexture(ResourceLocation original, @Local(argsOnly = true) Inventory inventory) {
+	@ModifyExpressionValue(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/BlastFurnaceScreen;TEXTURE:Lnet/minecraft/resources/Identifier;"))
+	private static Identifier modifyTexture(Identifier original, @Local(argsOnly = true) Inventory inventory) {
 		return inventory.isTenfoursized() ? EBI_TEXTURE : original;
 	}
 
